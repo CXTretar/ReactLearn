@@ -2,7 +2,7 @@
 import React from 'react' // 创建组件、虚拟DOM元素，生命周期
 import ReactDOM from 'react-dom' // 把创建好的 组件 和 虚拟DOM 放到页面上展示的
 
-import '@/07.class-实例方法和静态方法'
+import '@/09.class-继承-公共方法'
 
 ReactDOM.render(
     <div>

@@ -24,6 +24,9 @@ console.log(Person.info)
 p1.say()
 Person.talk()
 
+// 创建了一个动物类
+// 注意1：在 class 的 { } 区间内，只能写 构造器、静态方法和静态属性、实例方法
+// 注意2：class 关键字内部，还是用 原来的配方实现的；所以说，我们把 class 关键字，称作 语法糖；
 class Animal {
     // 这是类中的 构造器
     // 每一个类中，都有一个构造器，如果我们程序员没有手动指定构造器，那么，可以认为类内部有个隐形的、看不见的 空构造器，类似于 constructor(){}
@@ -34,11 +37,11 @@ class Animal {
     }
     // 在 class 内部，通过 static 修饰的属性，就是静态属性
     static info = 'cccc'
-
+    // 在 class 内部，通过 static 修饰的属性，就是静态属性
     say(){
         console.log('Animal class 实例方法')
     }
-
+    // 这是 动物 类的静态方法（今后用的不多）
     static talk(){
         console.log('Animal class 静态方法')
     }
