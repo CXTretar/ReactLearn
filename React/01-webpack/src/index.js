@@ -2,10 +2,17 @@
 import React from 'react' // 创建组件、虚拟DOM元素，生命周期
 import ReactDOM from 'react-dom' // 把创建好的 组件 和 虚拟DOM 放到页面上展示的
 
-import '@/09.class-继承-公共方法'
+// import '@/10.class创建组件'
+// import AudiCar from '@/10.class创建组件'
+// import CarMaker from '@/10.class创建组件'
+// import CatMaker from './components/CatMaker';
+import CmtList from '@/components/CmtList2'
 
-ReactDOM.render(
-    <div>
-    123
-    </div>, document.getElementById('app'))
+
+ReactDOM.render(<div>
+    {/* 123 */}
+    {/* <AudiCar></AudiCar> */}
+    <CmtList></CmtList>
+    </div>, 
+    document.getElementById('app'))
 // Target container is not a DOM element.  经过分析，猜测：第二个参数接收的应该是一个  DOM 元素而不是 选择器

@@ -16,7 +16,10 @@ import ReactDOM from 'react-dom' // 把创建好的 组件 和 虚拟DOM 放到�
 // 参数n: 其它子节点
 //  <h1 id="myh1" title="this is a h1">这是一个大大的H1</h1>
 // const myh1 = React.createElement('h1', null, '这是一个大大的H1')
-const myh1 = React.createElement('h1', { id: 'myh1', title: 'this is a h1' }, '这是一个大大的H1')
+const myh1 = React.createElement('h1', {
+  id: 'myh1',
+  title: 'this is a h1'
+}, '这是一个大大的H1')
 
 const mydiv = React.createElement('div', null, '这是一个div元素', myh1)
 
