@@ -16,6 +16,12 @@ import CmtItem from '@/components/CmtItem2';
 import cssobj from '@/css/cmtlist.css'
 console.log(cssobj)
 
+// 如果在引用某个包的时候，这个包被安装到了 node_modules 目录中，
+// 则，可以省略 node_modules 这一层目录，直接以包名开始引入自己的 模块 或 样式表
+// 自己规定： 第三方的 样式表，都是以 .css 结尾， 这样，我们不要为 普通的 .css 启用模块化
+//           自己的样式表，都要以 .scss 或 .less 结尾， 只为 .scss 或 .less 文件启用模块化
+import bootcss from 'bootstrap/dist/css/bootstrap.css'
+
 export default class CmtList extends React.Component {
   constructor() {
     super();
@@ -39,6 +45,9 @@ export default class CmtList extends React.Component {
         {/* 在 行内样式中，如果 是 数值类型的样式，则可以不用引号包裹，如果是 字符串类型的 样式值，必须使用 引号包裹 */}
         {/* <h1 className={cssobj.title + ' test'} >这是评论列表组件</h1> */}
         <h1 className={[cssobj.title, 'test'].join(' ')}>这是评论列表组件</h1>
+
+        <button className="btn brn-primary">按钮</button>
+        
         {this.state.CommentList.map(item => (
           <CmtItem {...item} key={item.id} />
         ))}

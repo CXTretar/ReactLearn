@@ -27,6 +27,10 @@ module.exports = {
         // use: ['style-loader', 'css-loader?modules'], // 打包处理 CSS 样式表的第三方loader, 'css-loader?modules' 启用CSS模块化,可以返回对象
         use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]'] 
       },
+      {
+        test: /\.ttf|woff|woff2|eot|svg$/,
+        use: 'url-loader'
+      }
     ],
   },
   resolve: {
