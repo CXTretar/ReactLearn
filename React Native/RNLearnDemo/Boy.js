@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Girl from './Girl'
-
+import NavigationBar from './NavigationBar'
 type Props = {};
 export default class Boy extends Component<Props> {
     constructor(props){
@@ -14,7 +14,9 @@ export default class Boy extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{height:10}}/>
+                <NavigationBar
+                    title='Boy'
+                />
                 <Text style={styles.text}>I am Boy</Text>
                 <View style={{height:10}}/>
                 <Text style={styles.text}
@@ -44,10 +46,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'green',
-        justifyContent: 'center'
     },
     text: {
         fontSize: 20,
         textAlign: 'center'
-    }
+    },
 })
