@@ -15,6 +15,7 @@ type Props = {};
 export default class Page1 extends Component<Props> {
   render() {
     const {navigation} = this.props;
+    console.log(navigation)
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to Page1!</Text>

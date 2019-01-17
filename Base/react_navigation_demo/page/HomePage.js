@@ -18,11 +18,15 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class HomePage extends Component<Props> {
+    static navigationOptions = {
+        title: 'Home',
+        headerBackTitle: '返回哈哈'
+    };
   render() {
     const {navigation} = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to Page1!</Text>
+        <Text style={styles.welcome}>Welcome to HomePage!</Text>
         <Button
             title={'Go to Page1'}
             onPress={()=>{

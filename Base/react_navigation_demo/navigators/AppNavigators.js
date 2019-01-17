@@ -13,7 +13,10 @@ import Page5 from '../page/Page5'
 export const AppStackNavigator = createStackNavigator({
 
     HomePage: {
-        screen: HomePage
+        screen: HomePage,
+        navigationOptions: ({navigation})=>({
+            title: 'HomePage'
+        })
     },
     Page1: {
         screen: Page1,
@@ -37,9 +40,9 @@ export const AppStackNavigator = createStackNavigator({
                 title: params.title ? params.title : 'This is Page3',
                 headerRight: (
                     <Button
-                        title={params.mode === 'edit' ? '保存' : '收藏'}
+                        title={params.mode==='edit' ? '保存' : '收藏'}
                         onPress={()=>setParams({
-                            model: params.mode === 'edit' ? '' : 'edit'
+                            mode: params.mode==='edit' ? '' : 'edit'
                         })}
                     />
                 )
