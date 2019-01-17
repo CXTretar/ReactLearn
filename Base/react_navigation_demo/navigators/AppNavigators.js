@@ -19,31 +19,6 @@ import Page4 from '../page/Page4'
 import Page5 from '../page/Page5'
 import Login from '../page/Login'
 
-const AppStack = createStackNavigator({
-    Home: {
-        screen: HomePage,
-    },
-    Page1: {
-        screen: Page1,
-    }
-});
-
-const AuthStack = createStackNavigator({
-        Login: {
-            screen: Login,
-        },
-    }, {
-        navigationOptions: {}
-    }
-);
-
-export default createSwitchNavigator({
-        Auth: AuthStack,
-        App: AppStack,
-    }, {
-        initialRouteName: 'Auth',
-    }
-);
 
 const AppDrawerNavigator = createDrawerNavigator({
         Page4: {
@@ -297,4 +272,31 @@ export const AppStackNavigator = createStackNavigator({
         }
     }
 
-})
+});
+
+const AppStack = createStackNavigator({
+    Home: {
+        screen: HomePage,
+    },
+    Page1: {
+        screen: Page1,
+    }
+});
+
+const AuthStack = createStackNavigator({
+        Login: {
+            screen: Login,
+        },
+    }, {
+        navigationOptions: {}
+    }
+);
+
+export default createSwitchNavigator({
+        Auth: AuthStack,
+        App: AppStackNavigator,
+        // App: AppStack,
+    }, {
+        initialRouteName: 'Auth',
+    }
+);
