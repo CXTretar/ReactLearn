@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
+import {Platform, StyleSheet, Text, View, SectionList, RefreshControl, ActivityIndicator} from 'react-native';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,9 +18,18 @@ const instructions = Platform.select({
 
 type Props = {};
 
-const CITY_NAMES = ['北京', '广州', '上海', '厦门', '杭州', '深圳', '成都', '武汉', '福州'];
+const CITY_NAMES = [{
+    data: ['北京', '广州', '上海', '深圳'],
+    title: '一线城市',
+}, {
+    data: ['成都', '武汉', '杭州'],
+    title: '二、三线城市1',
+}, {
+    data: ['厦门', '福州'],
+    title: '二、三线城市2',
+}];
 
-export default class FlatListDemo extends Component<Props> {
+export default class SectionListDemo extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,6 +69,12 @@ export default class FlatListDemo extends Component<Props> {
         </View>
     }
 
+    _renderSectionHeader({section}) {
+        return <View style={styles.sectionHeaderContainer}>
+            <Text>{section.title}</Text>
+        </View>
+    }
+
     genIndicator() {
         return <View style={styles.indicatorContainer}>
             <ActivityIndicator
@@ -75,9 +90,9 @@ export default class FlatListDemo extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <FlatList
+                <SectionList
+                    sections={this.state.dataArray}
                     renderItem={(data) => this._renderItem(data)}
-                    data={this.state.dataArray}
                     // 默认下拉刷新组件
                     //
                     // refreshing={this.state.isLoading}
@@ -101,6 +116,8 @@ export default class FlatListDemo extends Component<Props> {
                         this.loadData(false)
                     }}
 
+                    renderSectionHeader={(data) => this._renderSectionHeader(data)}
+                    ItemSeparatorComponent={()=>(<View style={styles.separator}/>)}
                     // initialNumToRender={}
                     // keyExtractor={}
                     // numColumns={}
@@ -122,9 +139,9 @@ const styles = StyleSheet.create({
     },
     item: {
         flex: 1,
-        backgroundColor: '#169',
-        height: 200,
-        margin: 15,
+        backgroundColor: '#fff',
+        height: 150,
+        // margin: 15,
         // marginRight: 15,
         // marginLeft: 15,
         // marginBottom: 15,
@@ -133,7 +150,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        color: 'white'
+        color: 'black'
     },
     indicatorContainer: {
         alignItems: 'center'
@@ -141,5 +158,16 @@ const styles = StyleSheet.create({
     indicator: {
         color: 'red',
         margin: 10,
+    },
+    sectionHeaderContainer: {
+        height: 50,
+        backgroundColor: '#93ebbe',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    separator: {
+        height: 1,
+        backgroundColor: 'gray',
+        flex: 1,
     }
 });

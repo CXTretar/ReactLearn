@@ -28,6 +28,16 @@ export default class App extends Component<Props> {
                         // this.props.navigtion.navigate('FlatListDemo')
                     }
                 }/>
+                <Button title={'SwipeableFlatListDemo'} onPress={
+                    () => {
+                        navigation.navigate('SwipeableFlatListDemo')
+                    }
+                }/>
+                <Button title={'SectionListDemo'} onPress={
+                    () => {
+                        navigation.navigate('SectionListDemo')
+                    }
+                }/>
             </View>
         );
     }

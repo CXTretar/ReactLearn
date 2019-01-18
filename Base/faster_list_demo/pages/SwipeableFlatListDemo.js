@@ -7,7 +7,16 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    SwipeableFlatList,
+    RefreshControl,
+    ActivityIndicator,
+    TouchableHighlight
+} from 'react-native';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,7 +29,7 @@ type Props = {};
 
 const CITY_NAMES = ['北京', '广州', '上海', '厦门', '杭州', '深圳', '成都', '武汉', '福州'];
 
-export default class FlatListDemo extends Component<Props> {
+export default class SwipeableFlatListDemo extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
@@ -72,10 +81,27 @@ export default class FlatListDemo extends Component<Props> {
         </View>
     }
 
+    genQuickActions() {
+        return <View style={styles.quickContainer}>
+            <TouchableHighlight
+                onPress={()=>{
+                    alert('确认删除?')
+                }
+                }
+            >
+                <View style={styles.quick}>
+                    <Text style={styles.text}>删除</Text>
+                </View>
+            </TouchableHighlight>
+
+        </View>
+    }
+
+
     render() {
         return (
             <View style={styles.container}>
-                <FlatList
+                <SwipeableFlatList
                     renderItem={(data) => this._renderItem(data)}
                     data={this.state.dataArray}
                     // 默认下拉刷新组件
@@ -101,6 +127,9 @@ export default class FlatListDemo extends Component<Props> {
                         this.loadData(false)
                     }}
 
+                    renderQuickActions={() => (this.genQuickActions())}
+                    maxSwipeDistance={100}
+                    bounceFirstRowOnMount={false}
                     // initialNumToRender={}
                     // keyExtractor={}
                     // numColumns={}
@@ -123,7 +152,7 @@ const styles = StyleSheet.create({
     item: {
         flex: 1,
         backgroundColor: '#169',
-        height: 200,
+        height: 100,
         margin: 15,
         // marginRight: 15,
         // marginLeft: 15,
@@ -141,5 +170,23 @@ const styles = StyleSheet.create({
     indicator: {
         color: 'red',
         margin: 10,
+    },
+    quickContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        margin: 15,
+        // marginRight: 15,
+        // marginLeft: 15,
+        // marginBottom: 15,
+        // backgroundColor: 'red',
+    },
+    quick: {
+        flex: 1,
+        backgroundColor: 'red',
+        alignItems:'flex-end',
+        justifyContent:'center',
+        padding:10,
+        width:200,
     }
 });

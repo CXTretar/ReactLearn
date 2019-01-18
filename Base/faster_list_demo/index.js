@@ -4,6 +4,8 @@ import {AppRegistry} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 import App from './App';
 import FlatListDemo from './pages/FlatListDemo'
+import SwipeableFlatListDemo from './pages/SwipeableFlatListDemo'
+import SectionListDemo from './pages/SectionListDemo'
 import {name as appName} from './app.json';
 
 const AppRoot = createStackNavigator({
@@ -13,7 +15,19 @@ const AppRoot = createStackNavigator({
     FlatListDemo: {
         screen: FlatListDemo,
         navigationOptions: {
-            title: 'FlatListDemo',
+            title: 'SwipeableFlatListDemo',
+        }
+    },
+    SwipeableFlatListDemo: {
+        screen: SwipeableFlatListDemo,
+        navigationOptions: {
+            title: 'SwipeableFlatListDemo',
+        }
+    },
+    SectionListDemo: {
+        screen: SectionListDemo,
+        navigationOptions: {
+            title: 'SectionListDemo',
         }
     }
 });
