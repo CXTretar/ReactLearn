@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Platform, StyleSheet, Image, SafeAreaView, Text, View} from 'react-native';
-import NavgationUtil from '../navigator/NavgationUtil'
+import NavigationUtil from '../navigator/NavigationUtil'
 
 type Props = {};
 
@@ -13,8 +13,8 @@ export default class WelcomePage extends Component<Props> {
 
     componentDidMount(): void {
         this.timer = setTimeout(() => {
-            NavgationUtil.resetToHomePage(this.props)
-        }, 2000)
+            NavigationUtil.resetToHomePage(this.props)
+        }, 200)
     }
 
     componentWillMount(): void {

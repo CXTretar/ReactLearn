@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Image, SafeAreaView, Text, View} from 'react-native';
+import {Platform, StyleSheet, Image, SafeAreaView, Text, View, Button} from 'react-native';
 
 type Props = {};
 
@@ -11,9 +11,20 @@ export default class TrendingPage extends Component<Props> {
     }
 
     render() {
+
+        const {navigation} = this.props;
         return (
             <View style={styles.container}>
                 <Text style={styles.homePage}>HomePage</Text>
+                <Button title={'改变主题颜色'} onPress={()=>{
+
+                    navigation.setParams({
+                        theme: {
+                            tintColor:'red',
+                            updateTime: new Date().getTime(),
+                        }
+                    })
+                }}/>
             </View>
         );
     }
