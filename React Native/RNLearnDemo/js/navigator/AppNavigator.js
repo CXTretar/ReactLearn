@@ -1,9 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { createNavigationReducer, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 import {
     createStackNavigator,
-    createBottomTabNavigator,
     createSwitchNavigator,
-    createMaterialTopTabNavigator
 } from 'react-navigation';
 
 import WelcomePage from '../page/WelcomePage';
