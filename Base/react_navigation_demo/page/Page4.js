@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+// import { DrawerActions } from 'react-navigation-drawer';
 
 type Props = {};
 export default class Page4 extends Component<Props> {
