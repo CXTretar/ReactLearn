@@ -1,19 +1,22 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Image, SafeAreaView, Text, View} from 'react-native';
+import {Platform, StyleSheet, Image, Text, View, Button} from 'react-native';
+import actions from "../action";
+import {connect} from "react-redux";
 
-type Props = {};
-
-export default class MyPage extends Component<Props> {
+export class MyPage extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {}
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.homePage}>HomePage</Text>
+                <Text style={styles.homePage}>MyPage</Text>
+                <Button title={'改变主题颜色'} onPress={() => {
+                    this.props.onThemeChange('blue')
+                }}/>
             </View>
         );
     }
@@ -31,3 +34,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
 });
+
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => ({
+    onThemeChange: theme => dispatch(actions.onThemeChange(theme))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(MyPage);

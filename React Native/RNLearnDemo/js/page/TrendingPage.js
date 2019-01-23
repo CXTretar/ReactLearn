@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Image, SafeAreaView, Text, View, Button} from 'react-native';
+import {connect} from 'react-redux'
+import actions from '../action/index'
 
-type Props = {};
-
-export default class TrendingPage extends Component<Props> {
+export class TrendingPage extends Component {
 
     constructor(props) {
         super(props)
@@ -15,15 +15,15 @@ export default class TrendingPage extends Component<Props> {
         const {navigation} = this.props;
         return (
             <View style={styles.container}>
-                <Text style={styles.homePage}>HomePage</Text>
-                <Button title={'改变主题颜色'} onPress={()=>{
-
-                    navigation.setParams({
-                        theme: {
-                            tintColor:'red',
-                            updateTime: new Date().getTime(),
-                        }
-                    })
+                <Text style={styles.homePage}>TrendingPage</Text>
+                <Button title={'改变主题颜色'} onPress={() => {
+                    this.props.onThemeChange('red')
+                    // navigation.setParams({
+                    //     theme: {
+                    //         tintColor: 'red',
+                    //         updateTime: new Date().getTime(),
+                    //     }
+                    // })
                 }}/>
             </View>
         );
@@ -42,3 +42,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
 });
+
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => ({
+    onThemeChange: theme => dispatch(actions.onThemeChange(theme))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(TrendingPage);

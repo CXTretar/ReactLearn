@@ -1,13 +1,11 @@
 /** @format */
 
 import {AppRegistry} from 'react-native';
-import App from './App';
+import App from './js/App';
 import {name as appName} from './app.json';
 import {createAppContainer} from 'react-navigation'
-import AppNavigator from './js/navigator/AppNavigator'
+// import RootNavigator from './js/navigator/AppNavigator'
 
 
 
-const  AppNavigatorContainer = createAppContainer(AppNavigator)
-
-AppRegistry.registerComponent(appName, () => AppNavigatorContainer);
+AppRegistry.registerComponent(appName, () => App);

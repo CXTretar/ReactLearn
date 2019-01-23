@@ -10,9 +10,7 @@ import MyPage from './MyPage'
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
 
-type Props = {};
-
-export default class HomePage extends Component<Props> {
+export default class HomePage extends Component {
 
     constructor(props) {
         super(props)

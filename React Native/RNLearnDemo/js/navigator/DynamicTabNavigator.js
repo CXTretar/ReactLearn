@@ -9,8 +9,7 @@ import TrendingPage from '../page/TrendingPage'
 import MyPage from '../page/MyPage'
 import NavigationUtil from '../navigator/NavigationUtil';
 import {BottomTabBar} from 'react-navigation-tabs'
-
-type Props = {};
+import {connect} from 'react-redux';
 
 const TABS = {
     PopularPage: {
@@ -66,27 +65,34 @@ const TABS = {
 };
 
 
-export default class DynamicTabNavigator extends Component<Props> {
+export class DynamicTabNavigator extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         console.disableYellowBox = true;
         this.state = {}
     }
 
-    _tabNavgator() {
+    _tabNavigator() {
+        if(this.Tabs) {
+            return this.Tabs;
+        }
         const {PopularPage, TrendingPage, FavoritePage, MyPage} = TABS;
         const tabs = {PopularPage, TrendingPage, FavoritePage, MyPage};//根据需要定制显示的tab
         // PopularPage.navigationOptions.tabBarLabel = '最新'; //动态配置tab属性
-        const AppBottomTabNavigator = createBottomTabNavigator(tabs, {
-            tabBarComponent: TabBarComponent,
+        const  AppBottomTabNavigator = createBottomTabNavigator(tabs, {
+            tabBarComponent: props => {
+                return <TabBarComponent theme={this.props.theme} {...props}>
+
+                </TabBarComponent>
+            } ,
         });
-        return createAppContainer(AppBottomTabNavigator);
+        return this.Tabs = createAppContainer(AppBottomTabNavigator);
     }
 
     render() {
         // NavigationUtil.navigation = this.props.navigation;
-        const Tab = this._tabNavgator();
+        const Tab = this._tabNavigator();
         return <Tab/>;
     }
 }
@@ -102,31 +108,25 @@ class TabBarComponent extends Component {
     }
 
     render() {
-        const {routes, index} = this.props.navigation.state;
-        if (routes[index].params) {
-            const {theme} = routes[index].params;
-            // 以最新的更新时间为主,防止被其他的Tab之前的修改覆盖掉
-            if (theme && theme.updateTime > this.theme.updateTime) {
-                this.theme = theme;
-            }
-        }
+        // 使用reducer之前设置主题颜色
+        // const {routes, index} = this.props.navigation.state;
+        // if (routes[index].params) {
+        //     const {theme} = routes[index].params;
+        //     // 以最新的更新时间为主,防止被其他的Tab之前的修改覆盖掉
+        //     if (theme && theme.updateTime > this.theme.updateTime) {
+        //         this.theme = theme;
+        //     }
+        // }
 
         return <BottomTabBar
             {...this.props}
-            activeTintColor={this.theme.tintColor || this.props.activeTintColor}
+            activeTintColor={this.props.theme}
         />;
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    homePage: {
-        justifyContent: 'center',
-        fontSize: 20,
-    },
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
 });
+
+export default connect(mapStateToProps)(DynamicTabNavigator);
