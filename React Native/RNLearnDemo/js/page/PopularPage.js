@@ -4,6 +4,7 @@ import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigatio
 import NavigationUtil from '../navigator/NavigationUtil'
 import DetailPage from './DetailPage';
 import FetchDemoPage from './FetchDemoPage';
+
 type Props = {};
 
 export default class PopularPage extends Component<Props> {
@@ -72,13 +73,22 @@ class PopularTab extends Component {
             }}>
                 跳转到详情页
             </Text>
-            <Button title={'Fetch 基本使用'} onPress={()=> {
-                NavigationUtil.goPage({
-                    // title:'详情页',
-                    navigation: this.props.navigation,
-                }, 'FetchDemoPage')
-            }}/>
-            
+            <View style={styles.buttonContainer}>
+                <Button title={'Fetch 基本使用'} onPress={() => {
+                    NavigationUtil.goPage({
+                        // title:'详情页',
+                        navigation: this.props.navigation,
+                    }, 'FetchDemoPage')
+                }}/>
+                <Button title={'AsyncStorage 基本使用'} onPress={() => {
+                    NavigationUtil.goPage({
+                        // title:'详情页',
+                        navigation: this.props.navigation,
+                    }, 'AsyncStorageDemoPage')
+                }}/>
+            </View>
+
+
         </View>;
     }
 
@@ -108,5 +118,10 @@ const styles = StyleSheet.create({
         fontSize: 13,
         marginTop: 6,
         marginBottom: 6,
+    },
+    buttonContainer: {
+        justifyContent: 'space-between',
+        height: 90,
+        marginTop:10,
     }
 });

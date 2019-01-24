@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {TextInput, StyleSheet, Image, SafeAreaView, Text, View, Button} from 'react-native';
-import actions from "../action";
-import {connect} from "react-redux";
 
 export default class FetchDemoPage extends Component {
 
@@ -86,9 +84,9 @@ const styles = StyleSheet.create({
 
     textInput: {
         flex: 1,
-        height: 50,
+        height: 40,
         borderWidth: 1,
         borderColor: 'black',
-        marginRight: 10,
+        margin: 10,
     },
 });
