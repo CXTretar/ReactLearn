@@ -1,37 +1,50 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Image, SafeAreaView, Text, View} from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import {createStackNavigator, createBottomTabNavigator, createAppContainer} from 'react-navigation'
-import FavoritePage from './FavoritePage'
-import PopularPage from './PopularPage'
-import TrendingPage from './TrendingPage'
-import MyPage from './MyPage'
+import {StyleSheet, BackHandler} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
-import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
+import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
+import {NavigationActions} from 'react-navigation';
+import {connect} from "react-redux";
 
-export default class HomePage extends Component {
+export class HomePage extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {}
     }
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+
+
+    /**
+     * 处理 Android 中的物理返回键
+     * https://reactnavigation.org/docs/en/redux-integration.html#handling-the-hardware-back-button-in-android
+     * @returns {boolean}
+     */
+    onBackPress = () => {
+        const {dispatch, nav} = this.props;
+        if (nav.routes[1].index === 0) {//如果RootNavigator中的MainNavigator的index为0，则不处理返回事件
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    };
 
     render() {
         NavigationUtil.navigation = this.props.navigation;
         return <DynamicTabNavigator/>;
     }
+
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    homePage: {
-        justifyContent: 'center',
-        fontSize: 20,
-    },
+
+const mapStateToProps = state => ({
+    nav: state.nav,
 });
+
+export default connect(mapStateToProps)(HomePage);
