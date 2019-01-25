@@ -5,6 +5,8 @@ import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
 import FetchDemoPage from '../page/FetchDemoPage'
 import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
+import DataStoreDemoPage from '../page/DataStoreDemoPage';
+
 import {connect} from 'react-redux'
 import {reduxifyNavigator, createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers'
 // import SwitchRouter from ''
@@ -52,6 +54,9 @@ const MainNavigator = createStackNavigator({
         navigationOptions: {
             // header: null,
         }
+    },
+    DataStoreDemoPage: {
+        screen: DataStoreDemoPage,
     }
 
 });

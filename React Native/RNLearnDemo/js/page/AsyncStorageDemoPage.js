@@ -8,7 +8,7 @@ export default class AsyncStorageDemoPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
+            showText: '',
         }
     }
 
@@ -55,7 +55,7 @@ export default class AsyncStorageDemoPage extends Component {
         // 用法一
         AsyncStorage.getItem(KEY,(error, result) => {
             this.setState({
-                value:result,
+                showText:result,
             });
             console.log(result);
             error && console.log(error.toString());
@@ -65,7 +65,7 @@ export default class AsyncStorageDemoPage extends Component {
         // AsyncStorage.getItem(KEY)
         //     .then(result => {
         //         this.setState({
-        //             value:result,
+        //             showText:result,
         //         });
         //     })
         //     .catch(error => {
@@ -78,7 +78,7 @@ export default class AsyncStorageDemoPage extends Component {
         //     if (value !== null) {
         //         // We have data!!
         //         this.setState({
-        //             value:value,
+        //             showText:value,
         //         })
         //     }
         // } catch (error) {
@@ -117,7 +117,7 @@ export default class AsyncStorageDemoPage extends Component {
 
                 </View>
 
-                <Text>{this.state.value}</Text>
+                <Text>{this.state.showText}</Text>
 
             </View>
         );

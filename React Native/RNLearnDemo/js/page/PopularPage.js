@@ -86,6 +86,12 @@ class PopularTab extends Component {
                         navigation: this.props.navigation,
                     }, 'AsyncStorageDemoPage')
                 }}/>
+                <Button title={'离线缓存框架设计'} onPress={() => {
+                    NavigationUtil.goPage({
+                        // title:'详情页',
+                        navigation: this.props.navigation,
+                    }, 'DataStoreDemoPage')
+                }}/>
             </View>
 
 
