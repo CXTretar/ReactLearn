@@ -11,3 +11,7 @@ export function onThemeChange(theme) {
         theme: theme,
     }
 }
+
+export function onChangeText(theme) {
+
+}

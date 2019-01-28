@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {TextInput, StyleSheet, AsyncStorage, Text, View} from 'react-native';
-import DataStoreA from '../expand/DataStoreA';
+import DataStoreA from '../expand/dao/DataStoreA';
 
 const KEY = 'save_key';
 

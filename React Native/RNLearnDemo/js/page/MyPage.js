@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Image, Text, View, Button} from 'react-native';
 import actions from "../action";
 import {connect} from "react-redux";
+import NavigationUtil from "../navigator/NavigationUtil";
 
 export class MyPage extends Component {
 
@@ -17,6 +18,36 @@ export class MyPage extends Component {
                 <Button title={'改变主题颜色'} onPress={() => {
                     this.props.onThemeChange('blue')
                 }}/>
+
+                <Text onPress={() => {
+                    NavigationUtil.goPage({
+                        // title:'详情页',
+                        navigation: this.props.navigation,
+                    }, 'DetailPage')
+                }}>
+                    跳转到详情页
+                </Text>
+                <View style={styles.buttonContainer}>
+                    <Button title={'Fetch 基本使用'} onPress={() => {
+                        NavigationUtil.goPage({
+                            // title:'详情页',
+                            navigation: this.props.navigation,
+                        }, 'FetchDemoPage')
+                    }}/>
+                    <Button title={'AsyncStorage 基本使用'} onPress={() => {
+                        NavigationUtil.goPage({
+                            // title:'详情页',
+                            navigation: this.props.navigation,
+                        }, 'AsyncStorageDemoPage')
+                    }}/>
+                    <Button title={'离线缓存框架设计'} onPress={() => {
+                        NavigationUtil.goPage({
+                            // title:'详情页',
+                            navigation: this.props.navigation,
+                        }, 'DataStoreDemoPage')
+                    }}/>
+                </View>
+
             </View>
         );
     }

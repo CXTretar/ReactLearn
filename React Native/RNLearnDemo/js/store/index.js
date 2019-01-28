@@ -17,7 +17,7 @@ const logger = store => next => action => {
 const middlewares = [
     middleware,
     logger,
-    thunk,
+    thunk,  // redux 异步中间件
 ];
 
 /**
