@@ -3,6 +3,7 @@ import {FlatList, StyleSheet, Image, RefreshControl, Text, View} from 'react-nat
 import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
 import {connect} from 'react-redux'
 import actions from '../action/index'
+import PopularItem from '../common/PopularItemNew'
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
@@ -83,11 +84,22 @@ class PopularTab extends Component<Props> {
 
     renderItem(data) {
         const item = data.item;
-        return <View style={{marginBottom: 20}}>
-            <Text style={{backgroundColor: '#C0C0C0'}}>{
-                JSON.stringify(item)
-            }</Text>
-        </View>
+        return <PopularItem
+            item = {item}
+            onSelect={
+                () => {
+
+                }
+
+            }
+        />
+
+
+        // <View style={{marginBottom: 20}}>
+        //     <Text style={{backgroundColor: '#C0C0C0'}}>{
+        //         JSON.stringify(item)
+        //     }</Text>
+        // </View>
     }
 
     render() {
@@ -104,7 +116,7 @@ class PopularTab extends Component<Props> {
             <FlatList
                 data={store.items}
                 renderItem={(data) => this.renderItem(data)}
-                keyExtractor={item=>""+item.id}
+                keyExtractor={item => "" + item.id}
                 refreshControl={
                     <RefreshControl
                         title={'Loading'}
