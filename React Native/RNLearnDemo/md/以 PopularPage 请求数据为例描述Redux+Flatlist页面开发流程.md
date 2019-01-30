@@ -8,10 +8,10 @@
 
 ```javascript
 import Types from '../types'
-import DataStoreA from '../../expand/dao/DataStoreA'
+import DataStore from DataStore
 
 /**
- * 获取最热数据的异步action
+ * DataStorection
  * @param storeName // 指的是具体的某种编程语言,例如iOS, Android
  * @returns {Function}
  */
@@ -26,7 +26,7 @@ export function onLoadPopularData(storeName) {
         });
 
         let dataStore = new DataStoreA();
-        dataStore.fetchData(url) // 异步action与数据流
+      DataStoree.fetchData(url) // 异步action与数据流
             .then(data => {
                 handleData(dispatch, storeName, data)
             })

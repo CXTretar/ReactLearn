@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {TextInput, StyleSheet, AsyncStorage, Text, View} from 'react-native';
-import DataStoreA from '../expand/dao/DataStoreA';
+import DataStore from '../expand/dao/DataStore';
 
 const KEY = 'save_key';
 
@@ -11,7 +11,7 @@ export default class DataStoreDemoPage extends Component {
         this.state = {
             showText: '',
         };
-        this.dataStore = new DataStoreA();
+        this.dataStore = new DataStore();
     }
 
     loadData() {

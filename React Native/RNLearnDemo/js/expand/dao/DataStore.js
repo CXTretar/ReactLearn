@@ -15,7 +15,7 @@
 
 import {AsyncStorage} from 'react-native'
 
-export default class DataStoreA {
+export default class DataStore {
 
     /**
      * 获取数据，优先获取本地数据，如果无本地数据或本地数据过期则获取网络数据
@@ -23,13 +23,13 @@ export default class DataStoreA {
      * @param flag
      * @returns {Promise}
      */
-    fetchData(url) {
+    fetchData(url,flag) {
         return new Promise((resolve, reject) => {
             // 先从本地数据获取数据
             this.fetchLocalData(url)
                 .then((wrapData) => {
                     // 判断数据是否存在,并且是否在有效期内
-                    if (wrapData && DataStoreA.checkTimestampValid(wrapData.timestamp)) {
+                    if (wrapData && DataStore.checkTimestampValid(wrapData.timestamp)) {
                         resolve(wrapData);
                     } else {
                         // 假如本地数据库数据为空或者过期,则通过网络请求获取数据
