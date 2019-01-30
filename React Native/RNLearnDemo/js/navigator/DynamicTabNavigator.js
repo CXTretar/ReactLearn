@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Image, SafeAreaView, Text, View} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {createStackNavigator, createBottomTabNavigator, createAppContainer} from 'react-navigation'

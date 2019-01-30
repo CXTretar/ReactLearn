@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Image, RefreshControl, Text, View, ActivityIndicator} from 'react-native';
+import {FlatList, StyleSheet, Image, RefreshControl, Text, View, ActivityIndicator, DeviceInfo} from 'react-native';
 import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
 import {connect} from 'react-redux'
 import actions from '../action/index'
@@ -55,6 +55,7 @@ export default class PopularPage extends Component<Props> {
                     scrollEnabled: true,  // 是否支持选项卡滚动,默认 false
                     style: {
                         backgroundColor: '#678', // Tabbar 背景颜色
+                        height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
                     },
                     indicatorStyle: styles.indicatorStyle, // 标签指示器样式
                     labelStyle: styles.labelStyle // 文字样式
@@ -64,7 +65,7 @@ export default class PopularPage extends Component<Props> {
 
         const TabNavigatorContainer = createAppContainer(TabNavigator);
 
-        return (<View style={{flex: 1, marginTop: 30}}>
+        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30: 0}}>
                 {navigationBar}
                 <TabNavigatorContainer/>
             </View>
@@ -165,7 +166,7 @@ class PopularTab extends Component<Props> {
                     <RefreshControl
                         title={'Loading'}
                         titleColor={THEME_COLOR}
-                        colors={THEME_COLOR}
+                        colors={[THEME_COLOR]}
                         refreshing={store.isLoading}
                         onRefresh={() => this.loadData()}
                         tintColor={THEME_COLOR}
@@ -202,7 +203,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onRefreshPopular: (storeName, url, pageSize = {}) => dispatch(actions.onRefreshPopular(storeName, url, pageSize)),
+    onRefreshPopular: (storeName, url, pageSize) => dispatch(actions.onRefreshPopular(storeName, url, pageSize)),
     onLoadMorePopular: (storeName, pageIndex, pageSize, items, callBack) => dispatch(actions.onLoadMorePopular(storeName, pageIndex, pageSize, items, callBack)),
 });
 
@@ -220,8 +221,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     tabStyle: {
-        minWidth: 50,
-
+        // minWidth: 50, //fix minWidth会导致tabStyle初次加载时闪烁
+        padding: 0,
     },
     indicatorStyle: {
         backgroundColor: 'white',
@@ -229,8 +230,7 @@ const styles = StyleSheet.create({
     },
     labelStyle: {
         fontSize: 13,
-        marginTop: 6,
-        marginBottom: 6,
+        margin: 0,
     },
     buttonContainer: {
         justifyContent: 'space-between',

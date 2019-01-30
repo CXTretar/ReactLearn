@@ -1,89 +1,87 @@
-import Types from '../types'
-import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore'
-import {handleData} from '../ActionUtil'
+import Types from '../../action/types'
 
+const defaultState = {};
 /**
- * 获取最热数据的异步action
- * @param storeName // 指的是具体的某种编程语言,例如iOS, Android
- * @returns {Function}
+ * popular:{
+ *     java:{
+ *         items:[],
+ *         isLoading:false,
+ *     },
+ *     ios:{
+ *         items:[],ios
+ *         isLoading:false,
+ *     }
+ * }
+ *
+ * 0.state树，横向扩展
+ * 1.如何动态的设置store，和动态获取store(难点：store key不固定)；
+ * @param state
+ * @param action
+ * @returns {{}}
  */
-export function onRefreshPopular(storeName, url, pageSize) {
-    // 返回一个异步acton
-    return dispatch => {
-
-        // 下拉时做一些操作,比如loading控件显示之类
-        dispatch({
-            type: Types.POPULAR_REFRESH,
-            storeName: storeName,
-        });
-
-        let dataStore = new DataStore();
-        dataStore.fetchData(url, FLAG_STORAGE.flag_popular) // 异步action与数据流
-            .then(data => {
-                handleData(Types.POPULAR_REFRESH_SUCCESS, dispatch, storeName, data, pageSize)
-            })
-            .catch(error => {
-                error && console.log(error.toString());
-                dispatch({
-                    type: Types.POPULAR_REFRESH_FAIL,
-                    storeName,  // 等价于 storeName: storeName,
-                    error,
-                })
-            })
-    }
-}
-
-
-export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray = [], callBack) {
-    // 返回一个异步acton
-    return dispatch => {
-        setTimeout(() => { // 模拟网络请求
-            if ((pageIndex - 1) * pageSize >= dataArray.length) { // 比较上次已经加载完的数据和源数组的大小来判断是否全部加载完成, 全部加载完成在这里等于加载更多失败
-                if (typeof callBack === 'function') { // 判断 callBack 是否是一个function
-                    callBack('no more data');
-                }
-                dispatch({
-                    type: Types.POPULAR_LOAD_MORE_FAIL,
-                    storeName,
-                    pageIndex: --pageIndex, // 模拟请求的时候做了+1操作,现在让他做-1操作复位到最大的pageIndex
-                    error: 'no more data',
-                    projectModels: dataArray,
-                })
-
-            } else { // 请求成功返回当前Index的子数组
-                let max = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex; //本次和载入的最大数量, 假如是最大数量则展示最大数量的子数组
-                dispatch({
-                    type: Types.POPULAR_LOAD_MORE_SUCCESS,
-                    storeName,
-                    pageIndex,
-                    projectModels: dataArray.slice(0, max),
-                })
+export default function onAction(state = defaultState, action) {
+    switch (action.type) {
+        case Types.TRENDING_REFRESH: { // 下拉刷新时
+            return {
+                ...state,
+                [action.storeName]: {
+                    ...state[action.storeName],
+                    isLoading: true,
+                    hideLoadingMore: true,
+                },
             }
-        }, 500)
+        }
+        case Types.TRENDING_REFRESH_SUCCESS: { // 下拉刷新成功
+            return {
+                ...state,
+                [action.storeName]: {
+                    ...state[action.storeName],
+                    items: action.items, // 原始数据
+                    projectModels: action.projectModels, // 此次要展示的数据
+                    isLoading: false,
+                    hideLoadingMore: false,
+                    pageIndex: action.pageIndex,
+                },
+            };
+
+        }
+        case Types.TRENDING_REFRESH_FAIL: {  // 下拉刷新失败
+            return {
+                ...state,
+                [action.storeName]: {
+                    ...state[action.storeName],
+                    isLoading: false,
+                },
+            }
+        }
+        case Types.TRENDING_LOAD_MORE_SUCCESS: { // 上拉加载成功
+            return {
+                ...state,
+                [action.storeName]: {
+                    ...state[action.storeName],
+                    projectModels: action.projectModels,
+                    hideLoadingMore: false,
+                    pageIndex: action.pageIndex,
+                },
+            }
+        }
+        case Types.TRENDING_LOAD_MORE_FAIL: {  // 上拉加载完成
+            return {
+                ...state,
+                [action.storeName]: {
+                    ...state[action.storeName],
+                    hideLoadingMore: true,
+                    pageIndex: action.pageIndex,
+                },
+            }
+        }
+
+        default:
+            return state;
     }
+
 }
 
-// /* 请求数据成功,进行数据处理 */
-// /**
-//  *
-//  * @param dispatch
-//  * @param storeName
-//  * @param data
-//  * @param pageSize
-//  */
-// function handleData(dispatch, storeName, data, pageSize) {
-//     let fixItems = [];
-//     if (data && data.data && data.data.items) {
-//         fixItems = data.data.items;
-//     }
-//     dispatch({
-//         type: Types.POPULAR_REFRESH_SUCCESS,
-//         projectModels: pageSize > fixItems.length ? fixItems : fixItems.slice(0, pageSize), // 第一次要加载的数据,根据设置的pageSize来判断,不能超过fixItems的长度
-//         items: fixItems,
-//         storeName: storeName,
-//         pageIndex: 1, // 初始的时候Index为1
-//     })
-// }
 
 // 数据样例
 /*
