@@ -15,7 +15,7 @@ const AppRoot = createStackNavigator({
     FlatListDemo: {
         screen: FlatListDemo,
         navigationOptions: {
-            title: 'SwipeableFlatListDemo',
+            title: 'FlatListDemo',
         }
     },
     SwipeableFlatListDemo: {

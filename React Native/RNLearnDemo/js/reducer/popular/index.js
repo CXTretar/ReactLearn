@@ -36,11 +36,11 @@ export default function onAction(state = defaultState, action) {
                 ...state,
                 [action.storeName]: {
                     ...state[action.storeName],
-                    items: action.items, // 原始数据
-                    projectModels: action.projectModels, // 此次要展示的数据
+                    items: action.items,//原始数据
+                    projectModels: action.projectModels,//此次要展示的数据
                     isLoading: false,
                     hideLoadingMore: false,
-                    pageIndex: action.pageIndex,
+                    pageIndex: action.pageIndex
                 },
             };
 

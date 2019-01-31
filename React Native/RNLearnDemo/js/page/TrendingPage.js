@@ -1,16 +1,28 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Image, RefreshControl, Text, View, ActivityIndicator,DeviceInfo} from 'react-native';
+import {
+    FlatList,
+    StyleSheet,
+    DeviceEventEmitter,
+    RefreshControl,
+    Text,
+    View,
+    ActivityIndicator,
+    DeviceInfo,
+    TouchableOpacity
+} from 'react-native';
 import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
 import {connect} from 'react-redux'
 import actions from '../action/index'
 import TrendingItem from '../common/TrendingItem'
 import NavigationBar from '../common/NavigationBar'
 import Toast from 'react-native-easy-toast'
+import TrendingDialog, {TimeSpans} from '../common/TrendingDialog';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 const URL = 'https://github.com/trending/';
-const QUERY_STR = '&sort=stars';
 const THEME_COLOR = '#678';
 const pageSize = 10;
+const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE';
 
 type Props = {};
 
@@ -18,15 +30,18 @@ export default class TrendingPage extends Component<Props> {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            timeSpan: TimeSpans[0], // 默认选中今天
+        };
         this.tabNames = ['All', 'C', 'C++', 'Objective-c'];
+
     }
 
     _genTabs() {
         const tabs = [];
         this.tabNames.forEach((item, index) => {
             tabs[`tab${index}`] = {
-                screen: props => <TrendingTabPage {...props} tabLabel={item}/>, // 如何在设置路由页面的同时传递参数, 非常有用!!
+                screen: props => <TrendingTabPage {...props} tabLabel={item} timeSpan={this.state.timeSpan}/>, // 如何在设置路由页面的同时传递参数, 非常有用!!
                 navigationOptions: {
                     title: item,
                 }
@@ -35,38 +50,83 @@ export default class TrendingPage extends Component<Props> {
         return tabs;
     }
 
+
+    renderTitleView() {
+        return <TouchableOpacity
+            underlayColor={'transparent'}
+            onPress={() => {
+                this.dialog.show()
+            }} //
+        >
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{fontSize: 18, color: 'white', fontWeight: '400'}}>
+                    趋势 {this.state.timeSpan.showText}
+                </Text>
+                <MaterialIcons
+                    name={'arrow-drop-down'}
+                    size={22}
+                    style={{color: 'white'}}
+                />
+            </View>
+
+        </TouchableOpacity>
+    }
+
+    onSelectTimeSpan(tab) {
+        this.dialog.dismiss();
+        this.setState({
+            timeSpan: tab
+        });
+        DeviceEventEmitter.emit(EVENT_TYPE_TIME_SPAN_CHANGE, tab); // 触发监听
+    }
+
+    renderTrendingDialog() {
+        return <TrendingDialog
+            ref={dialog => this.dialog = dialog} // 设置ref,方便调用组件内部的方法
+            onSelect={tab => this.onSelectTimeSpan(tab)}
+        />
+    }
+
+    _tabNav() {
+            if (!this.tabNav) {
+                this.tabNav = createAppContainer(createMaterialTopTabNavigator(
+                    this._genTabs(), {
+                        tabBarOptions: {
+                            tabStyle: styles.tabStyle,
+                            upperCaseLabel: false, // 是否支持标签大写,默认为true
+                            scrollEnabled: true,  // 是否支持选项卡滚动,默认 false
+                            style: {
+                                backgroundColor: '#678', // Tabbar 背景颜色
+                                height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
+                            },
+                            indicatorStyle: styles.indicatorStyle, // 标签指示器样式
+                            labelStyle: styles.labelStyle // 文字样式
+                        }
+                    }
+                ))
+            }
+        return this.tabNav;
+    }
+
     render() {
         let statusBar = {
             backgroundColor: THEME_COLOR,
             barStyle: 'light-content'
         };
         let navigationBar = <NavigationBar
-            title={'趋势'}
+            titleView={this.renderTitleView()}
             statusBar={statusBar}
             style={{backgroundColor: THEME_COLOR}}
         />;
 
-        const TabNavigator = createMaterialTopTabNavigator(
-            this._genTabs(), {
-                tabBarOptions: {
-                    tabStyle: styles.tabStyle,
-                    upperCaseLabel: false, // 是否支持标签大写,默认为true
-                    scrollEnabled: true,  // 是否支持选项卡滚动,默认 false
-                    style: {
-                        backgroundColor: '#678', // Tabbar 背景颜色
-                        height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
-                    },
-                    indicatorStyle: styles.indicatorStyle, // 标签指示器样式
-                    labelStyle: styles.labelStyle // 文字样式
-                }
-            }
-        );
 
-        const TabNavigatorContainer = createAppContainer(TabNavigator);
 
-        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30: 0}}>
+        const TabNavigator = this._tabNav();
+
+        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0}}>
                 {navigationBar}
-                <TabNavigatorContainer/>
+                <TabNavigator/>
+                {this.renderTrendingDialog()}
             </View>
 
         );
@@ -76,12 +136,26 @@ export default class TrendingPage extends Component<Props> {
 class TrendingTab extends Component<Props> {
     constructor(props) {
         super(props);
-        const {tabLabel} = this.props;
+        const {tabLabel, timeSpan} = this.props;
         this.storeName = tabLabel;
+        this.timeSpan = timeSpan;
     }
 
     componentDidMount(): void {
         this.loadData();
+        // 添加监听
+        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE,(timeSpan)=>{
+            this.timeSpan = timeSpan;
+            this.loadData();
+        })
+
+    }
+
+    componentWillUnmount(): void {
+        // 移除监听
+        if (this.timeSpanChangeListener) {
+            this.timeSpanChangeListener.remove();
+        }
     }
 
     /**
@@ -91,7 +165,6 @@ class TrendingTab extends Component<Props> {
      */
     _store() {
         const {trending} = this.props; // connect 之后产生的对象属性.
-        console.log(trending);
         let store = trending[this.storeName]; // 动态获取state, state就是oc中的model,数据对象
         if (!store) { // 初始化store,类似于oc中对 NSDictionary 的懒加载初始化
             store = {
@@ -118,8 +191,8 @@ class TrendingTab extends Component<Props> {
         }
     }
 
-    genFetchUrl(storeName) {
-        return URL + storeName + QUERY_STR;
+    genFetchUrl(key) {
+        return URL + key + '?' + this.timeSpan.searchText;
     }
 
     renderItem(data) {
@@ -135,7 +208,7 @@ class TrendingTab extends Component<Props> {
         />
     }
 
-    genIndicator(){
+    genIndicator() {
         return this._store().hideLoadingMore ? null :
             <View style={styles.indicatorContainer}>
                 <ActivityIndicator
@@ -164,17 +237,17 @@ class TrendingTab extends Component<Props> {
                 }
 
                 ListFooterComponent={() => this.genIndicator()}
-                onEndReached={()=>{
+                onEndReached={() => {
                     console.log('---onEndReached---');
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         if (this.canLoadMore) { //fix 滚动时两次调用onEndReached https://github.com/facebook/react-native/issues/14015
                             this.loadData(true);
                             this.canLoadMore = false;
                         }
-                    },100);
+                    }, 100);
                 }}
                 onEndReachedThreshold={0.5}
-                onMomentumScrollBegin={()=>{
+                onMomentumScrollBegin={() => {
                     this.canLoadMore = true; //fix 初始化时页调用onEndReached的问题
                     console.log('---onMomentumScrollBegin-----');
                 }}
@@ -227,10 +300,10 @@ const styles = StyleSheet.create({
         height: 90,
         marginTop: 10,
     },
-    indicatorContainer:{
+    indicatorContainer: {
         alignItems: 'center',
     },
-    indicator:{
+    indicator: {
         color: 'red',
         margin: 10
     }

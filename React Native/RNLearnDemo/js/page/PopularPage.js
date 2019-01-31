@@ -158,6 +158,7 @@ class PopularTab extends Component<Props> {
     render() {
         let store = this._store();
         return <View style={styles.container}>
+
             <FlatList
                 data={store.projectModels}
                 renderItem={(data) => this.renderItem(data)}

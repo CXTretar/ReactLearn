@@ -73,18 +73,18 @@ export class DynamicTabNavigator extends Component {
     }
 
     _tabNavigator() {
-        if(this.Tabs) {
+        if (this.Tabs) {
             return this.Tabs;
         }
         const {PopularPage, TrendingPage, FavoritePage, MyPage} = TABS;
         const tabs = {PopularPage, TrendingPage, FavoritePage, MyPage};//根据需要定制显示的tab
         // PopularPage.navigationOptions.tabBarLabel = '最新'; //动态配置tab属性
-        const  AppBottomTabNavigator = createBottomTabNavigator(tabs, {
+        const AppBottomTabNavigator = createBottomTabNavigator(tabs, {
             tabBarComponent: props => {
                 return <TabBarComponent theme={this.props.theme} {...props}>
 
                 </TabBarComponent>
-            } ,
+            },
         });
         return this.Tabs = createAppContainer(AppBottomTabNavigator);
     }

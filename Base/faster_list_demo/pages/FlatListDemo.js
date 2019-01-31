@@ -25,9 +25,13 @@ export default class FlatListDemo extends Component<Props> {
         super(props);
         this.state = {
             isLoading: false,
-            dataArray: CITY_NAMES,
+            dataArray: [],
         }
 
+    }
+
+    componentDidMount(): void {
+        this.loadData(true)
     }
 
     loadData(refreshing) {
@@ -40,8 +44,8 @@ export default class FlatListDemo extends Component<Props> {
         setTimeout(() => {
             let dataArray = [];
             if (refreshing) {
-                for (let i = this.state.dataArray.length - 1; i >= 0; i--) {
-                    dataArray.push(this.state.dataArray[i]);
+                for (let i = CITY_NAMES.length - 1; i >= 0; i--) {
+                    dataArray.push(CITY_NAMES[i]);
                 }
             } else {
                 dataArray = this.state.dataArray.concat(CITY_NAMES);
@@ -51,7 +55,7 @@ export default class FlatListDemo extends Component<Props> {
                 dataArray: dataArray,
                 isLoading: false,
             })
-        }, 2000);
+        }, 5000);
     }
 
     _renderItem(data) {
@@ -76,6 +80,7 @@ export default class FlatListDemo extends Component<Props> {
         return (
             <View style={styles.container}>
                 <FlatList
+                    style={{backgroundColor: 'red'}}
                     renderItem={(data) => this._renderItem(data)}
                     data={this.state.dataArray}
                     // 默认下拉刷新组件

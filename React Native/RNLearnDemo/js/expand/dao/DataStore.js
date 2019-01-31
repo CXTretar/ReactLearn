@@ -65,7 +65,7 @@ export default class DataStore {
      * @param callback
      */
     saveData(url, data, callback) {
-        if (!data || !url || !data.data) return;
+        if (!data || !url) return;
         AsyncStorage.setItem(url, JSON.stringify(this._wrapData(data)), callback);
     }
 
