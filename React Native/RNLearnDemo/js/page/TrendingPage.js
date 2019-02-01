@@ -8,7 +8,7 @@ import {
     View,
     ActivityIndicator,
     DeviceInfo,
-    TouchableOpacity
+    TouchableOpacity, InteractionManager
 } from 'react-native';
 import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
 import {connect} from 'react-redux'
@@ -18,6 +18,7 @@ import NavigationBar from '../common/NavigationBar'
 import Toast from 'react-native-easy-toast'
 import TrendingDialog, {TimeSpans} from '../common/TrendingDialog';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import NavigationUtil from "../navigator/NavigationUtil";
 
 const URL = 'https://github.com/trending/';
 const THEME_COLOR = '#678';
@@ -88,23 +89,23 @@ export default class TrendingPage extends Component<Props> {
     }
 
     _tabNav() {
-            if (!this.tabNav) {
-                this.tabNav = createAppContainer(createMaterialTopTabNavigator(
-                    this._genTabs(), {
-                        tabBarOptions: {
-                            tabStyle: styles.tabStyle,
-                            upperCaseLabel: false, // 是否支持标签大写,默认为true
-                            scrollEnabled: true,  // 是否支持选项卡滚动,默认 false
-                            style: {
-                                backgroundColor: '#678', // Tabbar 背景颜色
-                                height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
-                            },
-                            indicatorStyle: styles.indicatorStyle, // 标签指示器样式
-                            labelStyle: styles.labelStyle // 文字样式
-                        }
+        if (!this.tabNav) {
+            this.tabNav = createAppContainer(createMaterialTopTabNavigator(
+                this._genTabs(), {
+                    tabBarOptions: {
+                        tabStyle: styles.tabStyle,
+                        upperCaseLabel: false, // 是否支持标签大写,默认为true
+                        scrollEnabled: true,  // 是否支持选项卡滚动,默认 false
+                        style: {
+                            backgroundColor: '#678', // Tabbar 背景颜色
+                            height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
+                        },
+                        indicatorStyle: styles.indicatorStyle, // 标签指示器样式
+                        labelStyle: styles.labelStyle // 文字样式
                     }
-                ))
-            }
+                }
+            ))
+        }
         return this.tabNav;
     }
 
@@ -118,7 +119,6 @@ export default class TrendingPage extends Component<Props> {
             statusBar={statusBar}
             style={{backgroundColor: THEME_COLOR}}
         />;
-
 
 
         const TabNavigator = this._tabNav();
@@ -142,9 +142,12 @@ class TrendingTab extends Component<Props> {
     }
 
     componentDidMount(): void {
+        // InteractionManager.runAfterInteractions(()=>{
+        //     this.loadData()
+        // });
         this.loadData();
         // 添加监听
-        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE,(timeSpan)=>{
+        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) => {
             this.timeSpan = timeSpan;
             this.loadData();
         })
@@ -201,7 +204,9 @@ class TrendingTab extends Component<Props> {
             item={item}
             onSelect={
                 () => {
-
+                    NavigationUtil.goPage({
+                        projectModel: item,
+                    }, 'DetailPage')
                 }
 
             }

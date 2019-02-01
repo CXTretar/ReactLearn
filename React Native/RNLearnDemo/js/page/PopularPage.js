@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Image, RefreshControl, Text, View, ActivityIndicator, DeviceInfo} from 'react-native';
+import {FlatList, StyleSheet, RefreshControl, Text, View, ActivityIndicator, DeviceInfo,InteractionManager} from 'react-native';
 import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
 import {connect} from 'react-redux'
 import actions from '../action/index'
 import PopularItem from '../common/PopularItem'
 import NavigationBar from '../common/NavigationBar'
 import Toast from 'react-native-easy-toast'
+import NavigationUtil from "../navigator/NavigationUtil";
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
@@ -82,7 +83,8 @@ class PopularTab extends Component<Props> {
     }
 
     componentDidMount(): void {
-        this.loadData();
+        this.loadData()
+
     }
 
     /**
@@ -132,7 +134,9 @@ class PopularTab extends Component<Props> {
             item={item}
             onSelect={
                 () => {
-
+                    NavigationUtil.goPage({
+                        projectModel:item,
+                    },'DetailPage')
                 }
 
             }

@@ -76,11 +76,9 @@ export default class DataStore {
      */
 
     fetchLocalData(url) {
-        // 返回一个 Promise 对象, 方便之后的使用
         return new Promise((resolve, reject) => {
             AsyncStorage.getItem(url, (error, result) => {
                 if (!error) {
-                    // 解析本地存储的Json字符串格式的数据,成功就返回Json对象,失败则返回错误
                     try {
                         resolve(JSON.parse(result));
                     } catch (e) {
@@ -92,10 +90,9 @@ export default class DataStore {
                     console.error(error);
                 }
             })
-
-        });
-
+        })
     }
+
 
     /**
      * 获取网络数据
