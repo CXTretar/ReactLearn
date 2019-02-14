@@ -1,13 +1,13 @@
 import Types from '../types'
 import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore'
-import {handleData} from '../ActionUtil'
+import {_projectModels, handleData} from '../ActionUtil'
 
 /**
  * 获取最热数据的异步action
  * @param storeName // 指的是具体的某种编程语言,例如iOS, Android
  * @returns {Function}
  */
-export function onRefreshPopular(storeName, url, pageSize) {
+export function onRefreshPopular(storeName, url, pageSize, favoriteDao) {
     // 返回一个异步acton
     return dispatch => {
 
@@ -20,7 +20,7 @@ export function onRefreshPopular(storeName, url, pageSize) {
         let dataStore = new DataStore();
         dataStore.fetchData(url, FLAG_STORAGE.flag_popular) // 异步action与数据流
             .then(data => {
-                handleData(Types.POPULAR_REFRESH_SUCCESS, dispatch, storeName, data, pageSize)
+                handleData(Types.POPULAR_REFRESH_SUCCESS, dispatch, storeName, data, pageSize, favoriteDao)
             })
             .catch(error => {
                 error && console.log(error.toString());
@@ -33,8 +33,17 @@ export function onRefreshPopular(storeName, url, pageSize) {
     }
 }
 
-
-export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray = [], callBack) {
+/**
+ *
+ * @param storeName
+ * @param pageIndex     第几页
+ * @param pageSize      每页展示条数
+ * @param dataArray     原始数据
+ * @param favoriteDao
+ * @param callBack      回调函数，可以通过回调函数来向调用页面通信：比如异常信息的展示，没有更多等待
+ * @returns {Function}
+ */
+export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray = [], favoriteDao, callBack) {
     // 返回一个异步acton
     return dispatch => {
         setTimeout(() => { // 模拟网络请求
@@ -47,16 +56,18 @@ export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray = []
                     storeName,
                     pageIndex: --pageIndex, // 模拟请求的时候做了+1操作,现在让他做-1操作复位到最大的pageIndex
                     error: 'no more data',
-                    projectModels: dataArray,
                 })
 
             } else { // 请求成功返回当前Index的子数组
                 let max = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex; //本次和载入的最大数量, 假如是最大数量则展示最大数量的子数组
-                dispatch({
-                    type: Types.POPULAR_LOAD_MORE_SUCCESS,
-                    storeName,
-                    pageIndex,
-                    projectModels: dataArray.slice(0, max),
+
+                _projectModels(dataArray.slice(0, max), favoriteDao, projectModels => {
+                    dispatch({
+                        type: Types.POPULAR_LOAD_MORE_SUCCESS,
+                        storeName,
+                        pageIndex,
+                        projectModels: projectModels,
+                    })
                 })
             }
         }, 500)

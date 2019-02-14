@@ -27,13 +27,13 @@ export default class DetailPage extends Component<Props> {
         super(props);
         this.params = this.props.navigation.state.params;
         const {projectModel} = this.params;
-        this.url = projectModel.html_url || TRENDING_URL + projectModel.fullName;
-        const title = projectModel.full_name || projectModel.fullName;
+        this.url = projectModel.item.html_url || TRENDING_URL + projectModel.item.fullName;
+        const title = projectModel.item.full_name || projectModel.item.fullName;
         this.state = {
             title: title,
             url: this.url,
             canGoBack: false,
-        }
+        };
         this.backPress = new BackPressComponent({backPress: this.onBackPress});
     }
 
@@ -48,7 +48,7 @@ export default class DetailPage extends Component<Props> {
     onBackPress = () => {
         this.onBack();
         return true;
-    }
+    };
 
     onBack() {
         if (this.state.canGoBack) {
