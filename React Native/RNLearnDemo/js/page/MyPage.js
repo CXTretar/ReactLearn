@@ -109,8 +109,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
         marginTop: 30,
-        // alignItems: 'center',
-        // justifyContent: 'center',
     },
     homePage: {
         justifyContent: 'center',

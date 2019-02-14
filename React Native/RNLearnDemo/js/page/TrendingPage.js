@@ -22,6 +22,8 @@ import NavigationUtil from "../navigator/NavigationUtil";
 import FavoriteDao from "../expand/dao/FavoriteDao";
 import {FLAG_STORAGE} from "../expand/dao/DataStore";
 import FavoriteUtil from "../util/FavoriteUtil";
+import EventBus from "react-native-event-bus";
+import EventTypes from "../util/EventTypes";
 
 const URL = 'https://github.com/trending/';
 const THEME_COLOR = '#678';
@@ -153,6 +155,15 @@ class TrendingTab extends Component<Props> {
         this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) => {
             this.timeSpan = timeSpan;
             this.loadData();
+        });
+
+        EventBus.getInstance().addListener(EventTypes.favorite_changed_trending, this.favoriteChangeListener = () => {
+            this.isFavoriteChanged = true;
+        });
+        EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.bottomTabSelectListener = data => {
+            if (data.to === 1 && this.isFavoriteChanged) {
+                this.loadData(null, true);
+            }
         })
 
     }
@@ -162,6 +173,9 @@ class TrendingTab extends Component<Props> {
         if (this.timeSpanChangeListener) {
             this.timeSpanChangeListener.remove();
         }
+
+        EventBus.getInstance().removeListener(this.favoriteChangeListener);
+        EventBus.getInstance().removeListener(this.bottomTabSelectListener);
     }
 
     /**
@@ -183,8 +197,8 @@ class TrendingTab extends Component<Props> {
         return store;
     }
 
-    loadData(loadMore) {
-        const {onRefreshTrending, onLoadMoreTrending} = this.props; // connect 之后产生的对象方法.
+    loadData(loadMore, refreshFavorite) {
+        const {onRefreshTrending, onLoadMoreTrending, onFlushTrendingFavorite} = this.props; // connect 之后产生的对象方法.
         const url = this.genFetchUrl(this.storeName);
         const store = this._store();
         console.log(store);
@@ -192,6 +206,8 @@ class TrendingTab extends Component<Props> {
             onLoadMoreTrending(this.storeName, ++store.pageIndex, pageSize, store.items, favoriteDao, callback => {  //pageSize 设置为常量,防止修改
                 this.refs.toast.show('没有更多了');
             })
+        } else if (refreshFavorite) {
+            onFlushTrendingFavorite(this.storeName, store.pageIndex, pageSize, store.items, favoriteDao);
         } else {
             onRefreshTrending(this.storeName, url, pageSize, favoriteDao); // pageSize 设置为常量,防止修改
         }
@@ -281,7 +297,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onRefreshTrending: (storeName, url, pageSize, favoriteDao) => dispatch(actions.onRefreshTrending(storeName, url, pageSize, favoriteDao)),
-    onLoadMoreTrending: (storeName, pageIndex, pageSize, items, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao, callBack)),
+    onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao, callBack)),
+    onFlushTrendingFavorite: (storeName, pageIndex, pageSize, items) => dispatch(actions.onFlushTrendingFavorite(storeName, pageIndex, pageSize, items, favoriteDao)),
 });
 
 const TrendingTabPage = connect(mapStateToProps, mapDispatchToProps)(TrendingTab);
@@ -290,8 +307,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F5FCFF',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     homePage: {
         justifyContent: 'center',

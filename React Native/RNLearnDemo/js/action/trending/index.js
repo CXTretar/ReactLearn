@@ -67,3 +67,28 @@ export function onLoadMoreTrending(storeName, pageIndex, pageSize, dataArray = [
     }
 }
 
+/**
+ * 刷新收藏状态
+ * @param storeName
+ * @param pageIndex     第几页
+ * @param pageSize      每页展示条数
+ * @param dataArray     原始数据
+ * @param favoriteDao
+ * @returns {Function}
+ */
+export function onFlushTrendingFavorite(storeName, pageIndex, pageSize, dataArray = [], favoriteDao) {
+    // 返回一个异步acton
+    return dispatch => {
+        let max = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex; //本次和载入的最大数量, 假如是最大数量则展示最大数量的子数组
+
+        _projectModels(dataArray.slice(0, max), favoriteDao, (projectModels) => {
+            dispatch({
+                type: Types.FLUSH_TRENDING_FAVORITE,
+                storeName,
+                pageIndex,
+                projectModels: projectModels,
+            })
+        });
+    }
+}
+
