@@ -35,6 +35,14 @@ export default class BaseItem extends Component {
             isFavorite: isFavorite,
         });
     }
+    // 设置详情界面的callback函数
+    onItemClick() {
+        this.props.onSelect(
+            (isFavorite) => {
+                this.setFavoriteState(isFavorite);
+            }
+        )
+    }
 
     onPressFavorite() {
         console.log(this.state.isFavorite);
