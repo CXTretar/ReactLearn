@@ -16,6 +16,7 @@ import {
     createSwitchNavigator,
     createAppContainer,
 } from 'react-navigation';
+import WebViewPage from "../page/WebViewPage";
 
 export const rootCom = 'Init'; // 设置根路由
 
@@ -43,21 +44,12 @@ const MainNavigator = createStackNavigator({
             header: null,
         }
     },
-    FetchDemoPage: {
-        screen: FetchDemoPage,
+    WebViewPage: {
+        screen: WebViewPage,
         navigationOptions: {
-            // header: null,
+            header: null,
         }
     },
-    AsyncStorageDemoPage: {
-        screen: AsyncStorageDemoPage,
-        navigationOptions: {
-            // header: null,
-        }
-    },
-    DataStoreDemoPage: {
-        screen: DataStoreDemoPage,
-    }
 
 });
 

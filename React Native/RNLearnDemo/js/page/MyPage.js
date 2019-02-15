@@ -13,6 +13,7 @@ import ViewUtil from "../util/ViewUtil";
 const THEME_COLOR = '#678';
 
 type Props = {};
+
 export class MyPage extends Component<Props> {
 
     constructor(props) {
@@ -20,12 +21,25 @@ export class MyPage extends Component<Props> {
         this.state = {}
     }
 
-    onClick(){
+    onClick(menu) {
+        let RouteName, params = {};
+        switch (menu) {
+            case MenuTypes.Tutorial:
+                RouteName = 'WebViewPage';
+                params = {
+                    title:'教程',
+                    url:'https://coding.m.imooc.com/classindex.html?cid=89'
+                };
+                break;
+        }
+        if (RouteName) {
+            NavigationUtil.goPage(params, RouteName);
+        }
 
     }
 
     getItem(menu) {
-       return ViewUtil.getMenuItem(()=>this.onClick(),menu,THEME_COLOR);
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
     }
 
     render() {
@@ -37,7 +51,7 @@ export class MyPage extends Component<Props> {
             <NavigationBar
                 title={'我的'}
                 statusBar={statusBar}
-                style={{backgroundColor:THEME_COLOR}}
+                style={{backgroundColor: THEME_COLOR}}
             />;
 
         return (
@@ -55,7 +69,7 @@ export class MyPage extends Component<Props> {
                                 size={40}
                                 style={{
                                     marginRight: 10,
-                                    color:THEME_COLOR,
+                                    color: THEME_COLOR,
                                 }}
                             />
                             <Text>
@@ -66,9 +80,9 @@ export class MyPage extends Component<Props> {
                             name={'ios-arrow-forward'}
                             size={16}
                             style={{
-                                marginRight:10,
+                                marginRight: 10,
                                 alignSelf: 'center',
-                                color:THEME_COLOR,
+                                color: THEME_COLOR,
                             }}
                         />
                     </TouchableOpacity>
@@ -125,33 +139,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         fontSize: 20,
     },
-    about_left:{
+    about_left: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    item:{
-        backgroundColor:'white',
+    item: {
+        backgroundColor: 'white',
         padding: 10,
         height: 90,
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
     },
-    groupTitle:{
-        color:'gray',
+    groupTitle: {
+        color: 'gray',
         marginLeft: 10,
-        marginTop:10,
-        marginBottom:5,
+        marginTop: 10,
+        marginBottom: 5,
         fontSize: 12,
     },
 });
 
-const mapStateToProps = state => ({
-
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
     onThemeChange: theme => dispatch(actions.onThemeChange(theme))
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(MyPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MyPage);
