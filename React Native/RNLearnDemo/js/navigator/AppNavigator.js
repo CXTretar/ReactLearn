@@ -17,6 +17,7 @@ import {
     createAppContainer,
 } from 'react-navigation';
 import WebViewPage from "../page/WebViewPage";
+import AboutPage from "../page/about/AboutPage";
 
 export const rootCom = 'Init'; // 设置根路由
 
@@ -50,6 +51,13 @@ const MainNavigator = createStackNavigator({
             header: null,
         }
     },
+    AboutPage: {
+        screen: AboutPage,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
 
 });
 

@@ -4,7 +4,6 @@ import actions from '../action';
 import {connect} from 'react-redux';
 import NavigationUtil from '../navigator/NavigationUtil';
 import NavigationBar from '../common/NavigationBar';
-import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MenuTypes} from "../common/MenuTypes";
 import GlobalStyles from "../../res/styles/GlobalStyles";
@@ -30,6 +29,9 @@ export class MyPage extends Component<Props> {
                     title:'教程',
                     url:'https://coding.m.imooc.com/classindex.html?cid=89'
                 };
+                break;
+            case MenuTypes.About:
+                RouteName='AboutPage';
                 break;
         }
         if (RouteName) {
@@ -62,6 +64,7 @@ export class MyPage extends Component<Props> {
                 <ScrollView>
                     <TouchableOpacity
                         style={styles.item}
+                        onPress={()=>this.onClick(MenuTypes.About)}
                     >
                         <View style={styles.about_left}>
                             <Ionicons

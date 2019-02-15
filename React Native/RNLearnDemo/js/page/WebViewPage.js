@@ -1,13 +1,8 @@
 import React, {Component} from 'react';
 import {
-    Platform,
     StyleSheet,
-    Image,
-    SafeAreaView,
-    Text,
     View,
     WebView,
-    TouchableOpacity,
     DeviceInfo
 } from 'react-native';
 import NavigationBar from '../common/NavigationBar'
