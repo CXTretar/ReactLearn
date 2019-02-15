@@ -60,14 +60,23 @@ export default class ViewUtil {
                 flexDirection: 'row',
                 alignItems: 'center',
             }}>
-                <Icons
-                    name={icon}
-                    size={16}
-                    style={{
-                        marginRight: 10,
-                        color: color,
-                    }}
-                />
+                {Icons && icon ?
+                    <Icons
+                        name={icon}
+                        size={16}
+                        style={{
+                            marginRight: 10,
+                            color: color,
+                        }}
+                    /> :
+                    <View
+                        style={{
+                            opacity: 1,
+                            width: 16,
+                            height: 16,
+                            marginRight: 10,
+                        }}/>
+                }
                 <Text>
                     {text}
                 </Text>
@@ -94,13 +103,13 @@ export default class ViewUtil {
      * @returns {*}
      */
     static getMenuItem(callback, menu, color, expandableIcon) {
-       return this.getSettingItem(callback, menu.name, color, menu.Icons, menu.icon, expandableIcon);
+        return this.getSettingItem(callback, menu.name, color, menu.Icons, menu.icon, expandableIcon);
     }
 }
 
 const styles = StyleSheet.create({
-    setting_item_container:{
-        backgroundColor:'white',
+    setting_item_container: {
+        backgroundColor: 'white',
         padding: 10,
         height: 60,
         alignItems: 'center',

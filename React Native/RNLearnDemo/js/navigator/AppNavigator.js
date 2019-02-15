@@ -18,6 +18,7 @@ import {
 } from 'react-navigation';
 import WebViewPage from "../page/WebViewPage";
 import AboutPage from "../page/about/AboutPage";
+import AboutAuthorPage from "../page/about/AboutAuthorPage";
 
 export const rootCom = 'Init'; // 设置根路由
 
@@ -57,6 +58,12 @@ const MainNavigator = createStackNavigator({
             header: null,
         }
     },
+    AboutAuthorPage:{
+        screen:AboutAuthorPage,
+        navigationOptions:{
+            header:null,
+        }
+    }
 
 
 });

@@ -39,6 +39,9 @@ export default class AboutPage extends Component {
                     url:'https://coding.m.imooc.com/classindex.html?cid=89'
                 };
                 break;
+            case MenuTypes.About_Author:
+                RouteName = 'AboutAuthorPage';
+                break;
         }
         if (RouteName) {
             NavigationUtil.goPage(params, RouteName);

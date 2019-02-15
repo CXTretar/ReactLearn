@@ -6,7 +6,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import GlobalStyles from "../../../res/styles/GlobalStyles";
 import ViewUtil from "../../util/ViewUtil";
 
-export const FLAG_ABOUT = {flag_about: 'about', flag_about_me: 'about_me'};
+export const FLAG_ABOUT = {flag_about: 'about', flag_about_author: 'flag_about_author'};
 const window = Dimensions.get('window');
 const AVATAR_SIZE = 90;
 const PARALLAX_HEADER_HEIGHT = 270;

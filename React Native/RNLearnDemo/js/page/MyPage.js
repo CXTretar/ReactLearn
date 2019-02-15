@@ -33,6 +33,9 @@ export class MyPage extends Component<Props> {
             case MenuTypes.About:
                 RouteName='AboutPage';
                 break;
+            case MenuTypes.About_Author:
+                RouteName='AboutAuthorPage';
+                break;
         }
         if (RouteName) {
             NavigationUtil.goPage(params, RouteName);
