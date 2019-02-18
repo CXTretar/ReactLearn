@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MenuTypes} from "../common/MenuTypes";
 import GlobalStyles from "../../res/styles/GlobalStyles";
 import ViewUtil from "../util/ViewUtil";
+import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
 const THEME_COLOR = '#678';
 
@@ -26,17 +27,27 @@ export class MyPage extends Component<Props> {
             case MenuTypes.Tutorial:
                 RouteName = 'WebViewPage';
                 params = {
-                    title:'教程',
-                    url:'https://coding.m.imooc.com/classindex.html?cid=89'
+                    title: '教程',
+                    url: 'https://coding.m.imooc.com/classindex.html?cid=89'
                 };
                 break;
             case MenuTypes.About:
-                RouteName='AboutPage';
+                RouteName = 'AboutPage';
                 break;
             case MenuTypes.About_Author:
-                RouteName='AboutAuthorPage';
+                RouteName = 'AboutAuthorPage';
+                break;
+            case MenuTypes.Custom_Language:
+            case MenuTypes.Custom_Key:
+            case MenuTypes.Remove_Key:
+                RouteName = 'CustomKeyPage';
+                params = {
+                    isRemoveKey: menu === MenuTypes.Remove_Key,
+                    flag: menu !== MenuTypes.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language,
+                };
                 break;
         }
+
         if (RouteName) {
             NavigationUtil.goPage(params, RouteName);
         }
@@ -67,7 +78,7 @@ export class MyPage extends Component<Props> {
                 <ScrollView>
                     <TouchableOpacity
                         style={styles.item}
-                        onPress={()=>this.onClick(MenuTypes.About)}
+                        onPress={() => this.onClick(MenuTypes.About)}
                     >
                         <View style={styles.about_left}>
                             <Ionicons

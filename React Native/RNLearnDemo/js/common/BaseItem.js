@@ -17,7 +17,7 @@ export default class BaseItem extends Component {
             isFavorite: this.props.projectModel.isFavorite,
         }
     }
-
+    // 将 props 中的属性和 state 绑定, 当 props属性变化时state也会变化,并且重新渲染
     static getDerivedStateFromProps(nextProps, prevState) {
         const isFavorite = nextProps.projectModel.isFavorite;
         if (prevState.isFavorite !== isFavorite) {
