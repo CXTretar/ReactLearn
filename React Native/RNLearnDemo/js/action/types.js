@@ -16,4 +16,5 @@ export default {
     FAVORITE_LOAD_SUCCESS: "FAVORITE_LOAD_SUCCESS", // 收藏列表加载成功的action
     FLUSH_POPULAR_FAVORITE: "FLUSH_POPULAR_FAVORITE", // 刷新popular列表的收藏状态
     FLUSH_TRENDING_FAVORITE: "FLUSH_TRENDING_FAVORITE", // 刷新trending列表的收藏状态
+    LANGUAGE_LOAD_SUCCESS: "LANGUAGE_LOAD_SUCCESS", // 获取语言或者标签成功
 }
