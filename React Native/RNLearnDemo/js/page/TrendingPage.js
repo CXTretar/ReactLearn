@@ -103,7 +103,7 @@ export class TrendingPage extends Component<Props> {
 
     _tabNav() {
         const {languages} = this.props;
-        if (!this.tabNav || !ArrayUtil(this.preKeys, languages)) {
+        if (!this.tabNav || !ArrayUtil.isEqual(this.preLanguages, this.props.languages)) {
             this.tabNav = createAppContainer(createMaterialTopTabNavigator(
                 this._genTabs(), {
                     tabBarOptions: {
@@ -116,7 +116,8 @@ export class TrendingPage extends Component<Props> {
                         },
                         indicatorStyle: styles.indicatorStyle, // 标签指示器样式
                         labelStyle: styles.labelStyle // 文字样式
-                    }
+                    },
+                    lazy: true
                 }
             ))
         }

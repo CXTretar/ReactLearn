@@ -83,7 +83,8 @@ export class PopularPage extends Component<Props> {
                     },
                     indicatorStyle: styles.indicatorStyle, // 标签指示器样式
                     labelStyle: styles.labelStyle // 文字样式
-                }
+                },
+                lazy: true
             }
         )) : null;
 

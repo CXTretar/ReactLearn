@@ -10,7 +10,7 @@ const logger = store => next => action => {
           console.log('dispatch ', action);
       }
       const result = next(action);
-      console.log('nextState ', result);
+      console.log('nextAction ', result);
       console.log('nextState ', store.getState());
 };
 

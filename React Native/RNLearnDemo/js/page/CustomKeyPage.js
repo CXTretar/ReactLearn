@@ -1,41 +1,27 @@
 import React, {Component} from 'react';
 import {
-    FlatList,
     StyleSheet,
-    RefreshControl,
     Text,
     View,
-    ActivityIndicator,
     DeviceInfo,
-    InteractionManager, TouchableOpacity,
-    ScrollView
+    TouchableOpacity,
+    ScrollView,
+    Alert
 } from 'react-native';
-import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
+
 import {connect} from 'react-redux'
 import actions from '../action/index'
-import PopularItem from '../common/PopularItem'
 import NavigationBar from '../common/NavigationBar'
-import Toast from 'react-native-easy-toast'
 import NavigationUtil from "../navigator/NavigationUtil";
-import FavoriteDao from "../expand/dao/FavoriteDao";
-import {FLAG_STORAGE} from "../expand/dao/DataStore";
-import FavoriteUtil from "../util/FavoriteUtil";
-import EventBus from "react-native-event-bus";
-import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao'
 import BackPressComponent from "../common/BackPressComponent";
 import LanguageDao from "../expand/dao/LanguageDao";
 import ViewUtil from "../util/ViewUtil";
-import FontAwesome from "./DetailPage";
 import CheckBox from 'react-native-check-box'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import ArrayUtil from "../util/ArrayUtil";
 
-const URL = 'https://api.github.com/search/repositories?q=';
-const QUERY_STR = '&sort=stars';
 const THEME_COLOR = '#678';
-const pageSize = 10;
-
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 type Props = {};
 
 export class CustomKeyPage extends Component<Props> {
@@ -54,11 +40,10 @@ export class CustomKeyPage extends Component<Props> {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const keys = CustomKeyPage._keys(nextProps, null, prevState);
-        if (prevState.keys !== keys) {
+        if (prevState.keys !== CustomKeyPage._keys(nextProps, null, prevState)) {
             return {
-                keys: keys,
-            };
+                keys: CustomKeyPage._keys(nextProps, null, prevState),
+            }
         }
         return null;
     }
@@ -73,10 +58,11 @@ export class CustomKeyPage extends Component<Props> {
         // 2. 通过设置state以及来getDerivedStateFromProps赋值render
         this.setState({
             keys: CustomKeyPage._keys(this.props),
-        })
+        });
     }
 
     componentWillUnmount() {
+
         this.backPress.componentWillUnmount();
     }
 
@@ -91,10 +77,21 @@ export class CustomKeyPage extends Component<Props> {
     static _keys(props, original, state) {
         const {flag, isRemoveKey} = props.navigation.state.params;
         let key = flag === FLAG_LANGUAGE.flag_key ? 'keys' : 'languages';
-        if (isRemoveKey && !original) {
 
+        if (isRemoveKey && !original) {
+            //如果state中的keys为空则从props中取出数组,并且修改checked为false
+            return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(value => {
+                return {
+                    ...value,
+                    checked: false,
+                };
+            })
         } else {
-            return props.language[key];
+            return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(value => {
+                return {
+                    ...value,
+                };
+            });
         }
     }
 
@@ -104,23 +101,63 @@ export class CustomKeyPage extends Component<Props> {
     };
 
     onBack() {
-        NavigationUtil.goBack(this.props.navigation);
+        if (this.changeValues.length > 0) {
+            Alert.alert('提示', '要保存修改吗?', [
+                {
+                    text: '否',
+                    onPress: () => {
+                        NavigationUtil.goBack(this.props.navigation);
+                    }
+                },
+                {
+                    text: '是',
+                    onPress: () => {
+                        this.onSave();
+                    }
+                }
+            ])
+        } else {
+            NavigationUtil.goBack(this.props.navigation);
+        }
+
     }
 
-    save() {
-
+    onSave() {
+        if (this.changeValues.length === 0) {
+            NavigationUtil.goBack(this.props.navigation);
+            return;
+        }
+        let keys;
+        if (this.isRemoveKey) {
+            for (let i = 0, len = this.changeValues.length; i < len; i++) {
+                ArrayUtil.remove(keys = CustomKeyPage._keys(this.props, true), this.changeValues[i], 'name')
+            }
+        }
+        //更新本地数据
+        this.languageDao.save(keys || this.state.keys);
+        const {onLoadLanguageData} = this.props;
+        //更新store
+        onLoadLanguageData(this.params.flag);
+        NavigationUtil.goBack(this.props.navigation);
     }
 
     renderRightButton() {
         return <TouchableOpacity
             style={{alignItems: 'center',}}
-            onPress={() => this.save()}>
+            onPress={() => this.onSave()}>
             <Text style={{fontSize: 20, color: '#FFFFFF', marginRight: 10}}>完成</Text>
         </TouchableOpacity>
     }
 
     onClick(data, index) {
-
+        data.checked = !data.checked;
+        // 更新 changeValues 数组
+        ArrayUtil.updateArray(this.changeValues, data);
+        //更新state以便显示选中状态
+        this.state.keys[index] = data;
+        this.setState({
+            keys: this.state.keys,
+        })
     }
 
     _checkedImage(checked) {
