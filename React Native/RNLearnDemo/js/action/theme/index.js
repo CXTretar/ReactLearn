@@ -1,4 +1,5 @@
 import Types from '../types'
+import ThemeDao from "../../expand/dao/ThemeDao";
 
 /**
  * 主题变更
@@ -12,6 +13,28 @@ export function onThemeChange(theme) {
     }
 }
 
-export function onChangeText(theme) {
+/**
+ * 初始化主题
+ * @returns {Function}
+ */
+export function onThemeInit() {
+    return dispatch => {
+        new ThemeDao().getTheme()
+            .then((theme) => {
+                dispatch(onThemeChange(theme));
+            })
+    }
+}
+
+/**
+ * 显示或者隐藏自定义主题浮层
+ * @param show 显示或者隐藏
+ * @returns {{customThemeViewVisible: *, type: string}}
+ */
+export function onShowCustomThemeView(show) {
+    return {
+        type: Types.SHOW_THEME_VIEW,
+        customThemeViewVisible: show,
+    }
 
 }

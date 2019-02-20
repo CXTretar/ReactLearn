@@ -9,7 +9,6 @@ import GlobalStyles from "../../../res/styles/GlobalStyles";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Toast from "react-native-easy-toast";
 
-const THEME_COLOR = '#678';
 export default class AboutAuthorPage extends Component {
     constructor(props) {
         super(props);
@@ -36,11 +35,13 @@ export default class AboutAuthorPage extends Component {
     }
 
     onClick(tab) {
+        const {theme} = this.params;
         if (!tab) return;
         if (tab.url) {
             NavigationUtil.goPage({
                 title: tab.title,
                 url: tab.url,
+                theme,
             }, 'WebViewPage');
 
             return;
@@ -75,11 +76,12 @@ export default class AboutAuthorPage extends Component {
      * @private
      */
     _item(data, isShow, key) {
+        const {theme} = this.params;
         return ViewUtil.getSettingItem(() => {
             this.setState({
                 [key]: !this.state[key]
             })
-        }, data.name, THEME_COLOR, Ionicons, data.icon, isShow ? 'ios-arrow-up' : 'ios-arrow-down')
+        }, data.name, theme.themeColor, Ionicons, data.icon, isShow ? 'ios-arrow-up' : 'ios-arrow-down')
     }
 
     /**
@@ -89,13 +91,14 @@ export default class AboutAuthorPage extends Component {
      * @returns {*}
      */
     renderItems(dic, isShowAccount) {
+        const {theme} = this.params;
         if (!dic) return null;
         let views = [];
         for (let i in dic) {
             let title = isShowAccount ? dic[i].title + ':' + dic[i].account : dic[i].title;
             views.push(
                 <View key={i}>
-                    {ViewUtil.getSettingItem(() => this.onClick(dic[i]), title, THEME_COLOR)}
+                    {ViewUtil.getSettingItem(() => this.onClick(dic[i]), title, theme.themeColor)}
                     <View style={GlobalStyles.line}/>
                 </View>
             )

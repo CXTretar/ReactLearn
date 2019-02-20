@@ -166,15 +166,16 @@ export class SortKeyPage extends Component<Props> {
     }
 
     render() {
+        const {theme} = this.params;
         let title = this.params.flag === FLAG_LANGUAGE.flag_language ? '语言排序' : '标签排序';
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content'
         };
         let navigationBar = <NavigationBar
             title={title}
             statusBar={statusBar}
-            style={{backgroundColor: THEME_COLOR}}
+            style={{backgroundColor: theme.themeColor}}
             rightButton={this.renderRightButton()}
             leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
         />;
@@ -200,6 +201,7 @@ export class SortKeyPage extends Component<Props> {
 
 class SortCell extends Component {
     render(): React.ReactNode {
+        const {theme} = this.props;
         return <TouchableHighlight
             underlayColor={'#eee'}
             style={this.props.data.checked ? styles.item : styles.hidden}
@@ -211,7 +213,7 @@ class SortCell extends Component {
                     size={16}
                     style={{
                         marginRight: 10,
-                        color: THEME_COLOR,
+                        color: theme.themeColor,
                     }}/>
                 <Text>{this.props.data.name}</Text>
             </View>

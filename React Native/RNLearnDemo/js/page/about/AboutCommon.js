@@ -12,14 +12,13 @@ const AVATAR_SIZE = 90;
 const PARALLAX_HEADER_HEIGHT = 270;
 const TOP = (Platform.OS === 'ios') ? 20 + (DeviceInfo.isIPhoneX_deprecated ? 24 : 0) : 0;
 const STICKY_HEADER_HEIGHT = (Platform.OS === 'ios') ? GlobalStyles.nav_bar_height_ios + TOP : GlobalStyles.nav_bar_height_android;
-const THEME_COLOR = '#678';
 
 export default class AboutCommon {
     // updateState 为设置config函数
     constructor(props, updateState) {
         this.props = props;
         this.updateState = updateState;
-        this.backPress = new BackPressComponent({backPress: ()=>this.onBackPress()})
+        this.backPress = new BackPressComponent({backPress: () => this.onBackPress()})
     }
 
     onBackPress = () => {
@@ -91,7 +90,7 @@ export default class AboutCommon {
         );
 
         config.renderStickyHeader = () => (
-            <View key="sticky-header" style={styles.stickySection}>
+            <View key="sticky-header" style={[styles.stickySection, {color:'red'}]}>
                 <Text style={styles.stickySectionText}>{params.name}</Text>
             </View>
         );
@@ -109,10 +108,11 @@ export default class AboutCommon {
     }
 
     render(contentView, params) {
+        const {theme} = this.props;
         let renderConfig = this.getParallaxRenderConfig(params);
         return (
             <ParallaxScrollView
-                backgroundColor={THEME_COLOR}
+                backgroundColor={theme.themeColor}
                 contentBackgroundColor={GlobalStyles.backgroundColor}
                 parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
                 stickyHeaderHeight={STICKY_HEADER_HEIGHT}
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     stickySection: {
         height: STICKY_HEADER_HEIGHT,
         alignItems: 'center',
-        paddingTop:TOP
+        paddingTop: TOP
     },
     stickySectionText: {
         color: 'white',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop:TOP
+        paddingTop: TOP
     },
     fixedSectionText: {
         color: '#999',

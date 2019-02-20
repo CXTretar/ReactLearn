@@ -1,23 +1,28 @@
 import Types from '../../action/types'
+import ThemeFactory, {ThemeFlags} from "../../../res/styles/ThemeFactory";
 
-const  defaultState = {
-    theme:'blue',
+const defaultState = {
+    theme: ThemeFactory.createTheme(ThemeFlags.Default),
+    customThemeViewVisible: false,
 };
 
 export default function onAction(state = defaultState, action) {
     switch (action.type) {
-        case Types.THEME_CHANGE:{
-
+        case Types.THEME_CHANGE: {
             // return {theme:action.theme, ...state} = state;
-
             return {
                 ...state,
                 theme: action.theme,
             }
         }
+        case Types.SHOW_THEME_VIEW:
+            return {
+                ...state,
+                customThemeViewVisible: action.customThemeViewVisible,
+            };
         default:
-        return state;
+            return state;
     }
-  
+
 }
 

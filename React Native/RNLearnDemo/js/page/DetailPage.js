@@ -19,7 +19,6 @@ import FavoriteDao from "../expand/dao/FavoriteDao";
 import FavoriteUtil from "../util/FavoriteUtil";
 import {FLAG_STORAGE} from "../expand/dao/DataStore";
 
-const THEME_COLOR = '#678';
 const TRENDING_URL = 'https://github.com/';
 
 type Props = {};
@@ -111,12 +110,13 @@ export default class DetailPage extends Component<Props> {
     }
 
     render() {
+        const {theme} = this.params;
         const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight: 30} : null;
         let navigationBar =
             <NavigationBar
                 title={this.state.title}
                 titleLayoutStyle={titleLayoutStyle}
-                style={{backgroundColor: THEME_COLOR}}
+                style={{backgroundColor: theme.themeColor}}
                 rightButton={this.renderRightButton()}
                 leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
             />;

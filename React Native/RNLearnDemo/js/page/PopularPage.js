@@ -25,7 +25,6 @@ import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao'
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
-const THEME_COLOR = '#678';
 const pageSize = 10;
 
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
@@ -43,12 +42,12 @@ export class PopularPage extends Component<Props> {
 
     _genTabs() {
         const tabs = [];
-        const {keys} = this.props;
+        const {keys, theme} = this.props;
         keys.forEach((item, index) => {
             if (item.checked) {
                 tabs[`tab${index}`] = {
                     // screen: PopularTab,
-                    screen: props => <PopularTabPage {...props} tabLabel={item.name}/>, // 如何在设置路由页面的同时传递参数, 非常有用!!
+                    screen: props => <PopularTabPage {...props} tabLabel={item.name} theme={theme}/>, // 如何在设置路由页面的同时传递参数, 非常有用!!
                     navigationOptions: {
                         title: item.name,
                     }
@@ -59,16 +58,16 @@ export class PopularPage extends Component<Props> {
     }
 
     render() {
-        const {keys} = this.props;
+        const {keys,theme} = this.props;
 
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content'
         };
         let navigationBar = <NavigationBar
             title={'最热'}
             statusBar={statusBar}
-            style={{backgroundColor: THEME_COLOR}}
+            style={theme.styles.navBar}
         />;
 
         const TabNavigator = keys.length ? createAppContainer(createMaterialTopTabNavigator(
@@ -78,7 +77,7 @@ export class PopularPage extends Component<Props> {
                     upperCaseLabel: false, // 是否支持标签大写,默认为true
                     scrollEnabled: true,  // 是否支持选项卡滚动,默认 false
                     style: {
-                        backgroundColor: '#678', // Tabbar 背景颜色
+                        backgroundColor: theme.themeColor, // Tabbar 背景颜色
                         height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
                     },
                     indicatorStyle: styles.indicatorStyle, // 标签指示器样式
@@ -99,6 +98,7 @@ export class PopularPage extends Component<Props> {
 
 const mapPopularStateToProps = state => ({
     keys: state.language.keys,
+    theme: state.theme.theme,
 });
 
 const mapPopularDispatchToProps = dispatch => ({
@@ -175,8 +175,10 @@ class PopularTab extends Component<Props> {
     }
 
     renderItem(data) {
+        const {theme} = this.props;
         const item = data.item;
         return <PopularItem
+            theme={theme}
             projectModel={item}
             onSelect={
                 (callback) => {
@@ -184,6 +186,7 @@ class PopularTab extends Component<Props> {
                         projectModel: item,
                         flag: FLAG_STORAGE.flag_popular,
                         callback,
+                        theme,
                     }, 'DetailPage')
                 }
             }
@@ -201,16 +204,18 @@ class PopularTab extends Component<Props> {
     }
 
     genIndicator() {
+        const {theme} = this.props;
         return this._store().hideLoadingMore ? null :
             <View style={styles.indicatorContainer}>
                 <ActivityIndicator
-                    style={styles.indicator}
+                    style={{color: theme.themeColor, margin: 10}}
                 />
-                <Text>正在加载更多</Text>
+                <Text style={{color: theme.themeColor}}>正在加载更多</Text>
             </View>
     }
 
     render() {
+        const {theme} = this.props;
         let store = this._store();
         return <View style={styles.container}>
 
@@ -221,11 +226,11 @@ class PopularTab extends Component<Props> {
                 refreshControl={
                     <RefreshControl
                         title={'Loading'}
-                        titleColor={THEME_COLOR}
-                        colors={[THEME_COLOR]}
+                        titleColor={theme.themeColor}
+                        colors={[theme.themeColor]}
                         refreshing={store.isLoading}
                         onRefresh={() => this.loadData()}
-                        tintColor={THEME_COLOR}
+                        tintColor={theme.themeColor}
                     />
                 }
 
@@ -294,9 +299,5 @@ const styles = StyleSheet.create({
     },
     indicatorContainer: {
         alignItems: 'center',
-    },
-    indicator: {
-        color: 'red',
-        margin: 10
     }
 });

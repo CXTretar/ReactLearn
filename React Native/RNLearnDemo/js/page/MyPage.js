@@ -10,8 +10,6 @@ import GlobalStyles from "../../res/styles/GlobalStyles";
 import ViewUtil from "../util/ViewUtil";
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
-const THEME_COLOR = '#678';
-
 type Props = {};
 
 export class MyPage extends Component<Props> {
@@ -22,17 +20,16 @@ export class MyPage extends Component<Props> {
     }
 
     onClick(menu) {
-        let RouteName, params = {};
+        const {theme} = this.props;
+        let RouteName, params = {theme};
         switch (menu) {
             case MenuTypes.Tutorial:
                 RouteName = 'WebViewPage';
-                params = {
-                    title: '教程',
-                    url: 'https://coding.m.imooc.com/classindex.html?cid=89'
-                };
+                params.title = '教程';
+                params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
                 break;
             case MenuTypes.About:
-                RouteName = 'AboutPage';
+                RouteName = 'AboutPage'
                 break;
             case MenuTypes.About_Author:
                 RouteName = 'AboutAuthorPage';
@@ -41,17 +38,18 @@ export class MyPage extends Component<Props> {
             case MenuTypes.Custom_Key:
             case MenuTypes.Remove_Key:
                 RouteName = 'CustomKeyPage';
-                params = {
-                    isRemoveKey: menu === MenuTypes.Remove_Key,
-                    flag: menu !== MenuTypes.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language,
-                };
+                params.isRemoveKey = menu === MenuTypes.Remove_Key;
+                params.flag = menu !== MenuTypes.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language;
                 break;
             case MenuTypes.Sort_Key:
             case MenuTypes.Sort_Language:
                 RouteName = 'SortKeyPage';
-                params = {
-                    flag: menu !== MenuTypes.Sort_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language,
-                }
+                params.flag = menu !== MenuTypes.Sort_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language;
+                break;
+            case MenuTypes.Custom_Theme:
+                const {onShowCustomThemeView} = this.props;
+                onShowCustomThemeView(true);
+                break;
         }
 
         if (RouteName) {
@@ -61,19 +59,21 @@ export class MyPage extends Component<Props> {
     }
 
     getItem(menu) {
-        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
+        const {theme} = this.props;
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
     }
 
     render() {
+        const {theme} = this.props;
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
         };
         let navigationBar =
             <NavigationBar
                 title={'我的'}
                 statusBar={statusBar}
-                style={{backgroundColor: THEME_COLOR}}
+                style={theme.styles.navBar}
             />;
 
         return (
@@ -92,7 +92,7 @@ export class MyPage extends Component<Props> {
                                 size={40}
                                 style={{
                                     marginRight: 10,
-                                    color: THEME_COLOR,
+                                    color: theme.themeColor,
                                 }}
                             />
                             <Text>
@@ -105,7 +105,7 @@ export class MyPage extends Component<Props> {
                             style={{
                                 marginRight: 10,
                                 alignSelf: 'center',
-                                color: THEME_COLOR,
+                                color: theme.themeColor,
                             }}
                         />
                     </TouchableOpacity>
@@ -183,10 +183,13 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
 
 const mapDispatchToProps = dispatch => ({
-    onThemeChange: theme => dispatch(actions.onThemeChange(theme))
+    onThemeChange: theme => dispatch(actions.onThemeChange(theme)),
+    onShowCustomThemeView: show => dispatch(actions.onShowCustomThemeView(show)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyPage);

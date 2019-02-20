@@ -1,6 +1,6 @@
 export default {
     THEME_CHANGE: "THEME_CHANGE",
-    THEME_INIT: "THEME_INIT",
+    SHOW_THEME_VIEW: "SHOW_THEME_VIEW",
     POPULAR_REFRESH: "POPULAR_REFRESH", // popular列表下拉刷新的action
     POPULAR_REFRESH_FAIL: "POPULAR_REFRESH_FAIL", // popular列表加载失败的action
     POPULAR_REFRESH_SUCCESS: "POPULAR_REFRESH_SUCCESS", // popular列表加载成功的action

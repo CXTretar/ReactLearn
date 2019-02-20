@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, BackHandler} from 'react-native';
+import {StyleSheet, BackHandler, View} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
 import {NavigationActions} from 'react-navigation';
 import {connect} from "react-redux";
+import actions from '../action/index'
 import BackPressComponent from '../common/BackPressComponent';
+import CustomThemePage from '../page/CustomThemePage';
 
 export class HomePage extends Component {
 
     constructor(props) {
         super(props);
-        this.backPress = new BackPressComponent({backPress:this.onBackPress()});
+        this.backPress = new BackPressComponent({backPress: this.onBackPress()});
     }
 
     componentDidMount() {
@@ -20,7 +22,6 @@ export class HomePage extends Component {
     componentWillUnmount() {
         this.backPress.componentWillUnmount();
     }
-
 
     /**
      * 处理 Android 中的物理返回键
@@ -36,9 +37,23 @@ export class HomePage extends Component {
         return true;
     };
 
+    renderCustomThemeView() {
+        const {customThemeViewVisible, onShowCustomThemeView} = this.props;
+        return <CustomThemePage
+            {...this.props}
+            visible={customThemeViewVisible}
+            onClose={() => {
+                onShowCustomThemeView(false)
+            }}
+        />
+    }
+
     render() {
         NavigationUtil.navigation = this.props.navigation;
-        return <DynamicTabNavigator/>;
+        return <View style={{flex: 1}}>
+            <DynamicTabNavigator/>
+            {this.renderCustomThemeView()}
+        </View>;
     }
 
 }
@@ -46,6 +61,12 @@ export class HomePage extends Component {
 
 const mapStateToProps = state => ({
     nav: state.nav,
+    customThemeViewVisible: state.theme.customThemeViewVisible,
+    theme: state.theme.theme,
 });
 
-export default connect(mapStateToProps)(HomePage);
+const mapDispatchToProps = dispatch => ({
+    onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -13,7 +13,6 @@ export default class AboutPage extends Component {
         super(props);
 
         this.params = this.props.navigation.state.params;
-
         this.aboutCommon = new AboutCommon({
             ...this.params,
             navigation: this.props.navigation,
@@ -30,14 +29,13 @@ export default class AboutPage extends Component {
     }
 
     onClick(menu) {
-        let RouteName, params = {};
+        const {theme} = this.params;
+        let RouteName, params = {theme};
         switch (menu) {
             case MenuTypes.Tutorial:
                 RouteName = 'WebViewPage';
-                params = {
-                    title:'教程',
-                    url:'https://coding.m.imooc.com/classindex.html?cid=89'
-                };
+                params.title = '教程';
+                params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
                 break;
             case MenuTypes.About_Author:
                 RouteName = 'AboutAuthorPage';
@@ -50,7 +48,8 @@ export default class AboutPage extends Component {
     }
 
     getItem(menu) {
-        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
+        const {theme} = this.params;
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
     }
 
 
@@ -63,7 +62,7 @@ export default class AboutPage extends Component {
             {this.getItem(MenuTypes.Feedback)}
 
         </View>;
-        return this.aboutCommon.render(content,this.state.data.app);
+        return this.aboutCommon.render(content, this.state.data.app);
     }
 
 }
