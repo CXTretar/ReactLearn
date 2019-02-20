@@ -34,5 +34,10 @@
     "path": "react",
     "name": "React",
     "checked": true
+  },
+  {
+    "path": "flutter",
+    "name": "flutter",
+    "checked": true
   }
 ]

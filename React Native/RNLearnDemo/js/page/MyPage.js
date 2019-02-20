@@ -46,6 +46,12 @@ export class MyPage extends Component<Props> {
                     flag: menu !== MenuTypes.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language,
                 };
                 break;
+            case MenuTypes.Sort_Key:
+            case MenuTypes.Sort_Language:
+                RouteName = 'SortKeyPage';
+                params = {
+                    flag: menu !== MenuTypes.Sort_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language,
+                }
         }
 
         if (RouteName) {

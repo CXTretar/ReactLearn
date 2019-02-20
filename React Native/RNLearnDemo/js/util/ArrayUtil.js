@@ -14,7 +14,7 @@ export default class ArrayUtil {
             return false;
         }
         for (let i = 0, len = arr1.length; i < len; i++) {
-            if (arr1[1] !== arr2[i]) {
+            if (arr1[i] !== arr2[i]) {
                 return false;
             }
         }
@@ -55,12 +55,16 @@ export default class ArrayUtil {
         return array;
     }
 
-
-    static copy(array) {
+    /**
+     * clone 数组
+     * @return Array 新的数组
+     * */
+    static clone(array) {
+        if (!array) return [];
         let result = [];
         for (let i = 0; i < array.length; i++) {
             result.push(array[i])
         }
-        return array;
+        return result;
     }
 }
