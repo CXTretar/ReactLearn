@@ -3,6 +3,7 @@ import {onRefreshPopular, onLoadMorePopular, onFlushPopularFavorite} from './pop
 import {onRefreshTrending, onLoadMoreTrending, onFlushTrendingFavorite} from './trending'
 import {onLoadFavoriteData} from './favorite'
 import {onLoadLanguageData} from "./language";
+import {onSearch,onSearchCancel,onLoadMoreSearch} from "./search";
 
 export default {
     onThemeChange,
@@ -16,4 +17,7 @@ export default {
     onFlushPopularFavorite,
     onFlushTrendingFavorite,
     onLoadLanguageData,
+    onSearch,
+    onSearchCancel,
+    onLoadMoreSearch,
 }

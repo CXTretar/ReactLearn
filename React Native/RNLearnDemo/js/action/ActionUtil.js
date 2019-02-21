@@ -55,8 +55,17 @@ export async function _projectModels(showItems, favoriteDao, callback) {
         projectModels.push(new ProjectModel(showItems[i], Utils.checkFavorite(showItems[i], keys)));
     }
 
-    if (typeof callback === 'function') {
-        callback(projectModels);
-    }
+    doCallBack(callback,projectModels);
 
+}
+
+/**
+ * callback的统一判断function调用
+ * @param callback
+ * @param object
+ */
+export function doCallBack(callback, object) {
+    if (typeof callback === 'function') {
+        callback(object);
+    }
 }
