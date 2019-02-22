@@ -7,7 +7,7 @@ const API_URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
 const CANCEL_TOKENS = [];
 
-function getFetchUrl() {
+function getFetchUrl(key) {
     return API_URL + key + QUERY_STR;
 }
 
@@ -57,7 +57,7 @@ export function onSearch(inputKey, pageSize, token, favoriteDao, popularKeys, ca
 
                 let items = responseData.items;
                 handleData(Types.SEARCH_REFRESH_SUCCESS, dispatch, '', {data: items}, pageSize, favoriteDao, {
-                    showBottomButton: !Utils.checkKeyIsExist(popularKeys, key),
+                    showBottomButton: !Utils.checkKeyIsExist(popularKeys, inputKey),
                     inputKey
                 });
             })
@@ -120,4 +120,11 @@ export function onSearchCancel(token) {
         CANCEL_TOKENS.push(token);
         dispatch({type: Types.SEARCH_CANCEL});
     }
+}
+
+export function onSaveSearchKey() {
+    return dispatch => {
+        dispatch({type: Types.SEARCH_SAVE_KEY});
+    }
+
 }

@@ -85,6 +85,8 @@ export class CustomKeyPage extends Component<Props> {
                     checked: false,
                 };
             })
+        } else if (isRemoveKey) {
+            return props.language[key];
         } else {
             return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(value => {
                 return {

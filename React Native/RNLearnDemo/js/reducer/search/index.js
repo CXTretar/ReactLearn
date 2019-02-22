@@ -4,7 +4,6 @@ const defaultState = {
     showText: '搜索',    // 搜素框右侧按钮显示文本
     items: [],          // 源数据
     projectModels: [],  // 要显示的数据
-    inputKey: '',        // 搜索关键字
     isLoading: false,
     hideLoadingMore: true,
     showBottomButton: false,
@@ -64,6 +63,19 @@ export default function onAction(state = defaultState, action) {
                 isLoading: false,
                 showText: '搜索',
             }
+        }
+        case Types.SEARCH_SAVE_KEY: {
+            return {
+                ...state,
+                showText: '搜索',    // 搜素框右侧按钮显示文本
+                items: [],          // 源数据
+                projectModels: [],  // 要显示的数据
+                isLoading: false,
+                hideLoadingMore: true,
+                showBottomButton: false,
+                pageIndex: 0,
+                inputKey: null,
+            };
         }
 
         default:

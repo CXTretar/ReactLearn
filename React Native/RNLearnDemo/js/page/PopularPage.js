@@ -7,7 +7,7 @@ import {
     View,
     ActivityIndicator,
     DeviceInfo,
-    InteractionManager
+    TouchableOpacity,
 } from 'react-native';
 import {createMaterialTopTabNavigator, createAppContainer} from 'react-navigation'
 import {connect} from 'react-redux'
@@ -22,6 +22,7 @@ import FavoriteUtil from "../util/FavoriteUtil";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
@@ -57,8 +58,28 @@ export class PopularPage extends Component<Props> {
         return tabs;
     }
 
+    renderRightButton() {
+        const {theme} = this.props;
+        return <TouchableOpacity
+            onPress={()=>{
+                NavigationUtil.goPage({theme},'SearchPage');
+            }}
+        >
+            <Ionicons
+                name={'ios-search'}
+                size={24}
+                style={{
+                    marginRight: 8,
+                    alignSelf: 'center',
+                    color:'white',
+                }}
+            />
+
+        </TouchableOpacity>
+    }
+
     render() {
-        const {keys,theme} = this.props;
+        const {keys, theme} = this.props;
 
         let statusBar = {
             backgroundColor: theme.themeColor,
@@ -68,6 +89,7 @@ export class PopularPage extends Component<Props> {
             title={'最热'}
             statusBar={statusBar}
             style={theme.styles.navBar}
+            rightButton={this.renderRightButton()}
         />;
 
         const TabNavigator = keys.length ? createAppContainer(createMaterialTopTabNavigator(

@@ -3,6 +3,7 @@ import React from 'react'
 import WelcomePage from '../page/WelcomePage';
 import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
+import SearchPage from '../page/SearchPage';
 import FetchDemoPage from '../page/FetchDemoPage'
 import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import DataStoreDemoPage from '../page/DataStoreDemoPage';
@@ -78,6 +79,13 @@ const MainNavigator = createStackNavigator({
             header:null,
         }
     },
+    SearchPage:{
+        screen:SearchPage,
+        navigationOptions:{
+            header:null,
+        }
+    },
+
 
 });
 
