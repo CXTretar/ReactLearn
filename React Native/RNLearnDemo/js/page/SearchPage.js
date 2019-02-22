@@ -27,6 +27,7 @@ import BackPressComponent from "../common/BackPressComponent";
 import ViewUtil from "../util/ViewUtil";
 import GlobalStyles from '../../res/styles/GlobalStyles'
 import Utils from "../util/Utils";
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 const pageSize = 10; // pageSize 设置为常量,防止修改
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
@@ -249,7 +250,7 @@ export class SearchPage extends Component<Props> {
             {listView}
         </View>;
 
-        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0}}>
+        return (<SafeAreaViewPlus style={{flex: 1}} topColor={theme.themeColor}>
                 {statusBar}
                 {this.renderNavBar()}
                 {contentView}
@@ -257,7 +258,7 @@ export class SearchPage extends Component<Props> {
                 <Toast ref="toast"
                        position={'center'}
                 />
-            </View>
+            </SafeAreaViewPlus>
 
         );
     }

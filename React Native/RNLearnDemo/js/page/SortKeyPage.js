@@ -20,6 +20,7 @@ import ViewUtil from "../util/ViewUtil";
 import SortableListView from 'react-native-sortable-listview'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import ArrayUtil from "../util/ArrayUtil";
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 const THEME_COLOR = '#678';
 type Props = {};
@@ -181,7 +182,8 @@ export class SortKeyPage extends Component<Props> {
         />;
 
         // SortableListView的用法具体参考 https://github.com/deanmcpherson/react-native-sortable-listview/blob/master/example.js
-        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0}}>
+        return (
+            <SafeAreaViewPlus style={{flex: 1}} topColor={theme.themeColor}>
                 {navigationBar}
 
                 <SortableListView
@@ -193,7 +195,7 @@ export class SortKeyPage extends Component<Props> {
                     }}
                     renderRow={row => <SortCell data={row} {...this.params}/>}
                 />
-            </View>
+            </SafeAreaViewPlus>
 
         );
     }

@@ -20,6 +20,7 @@ import ViewUtil from "../util/ViewUtil";
 import CheckBox from 'react-native-check-box'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import ArrayUtil from "../util/ArrayUtil";
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 type Props = {};
 
@@ -217,12 +218,12 @@ export class CustomKeyPage extends Component<Props> {
             leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
         />;
 
-        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0}}>
+        return (<SafeAreaViewPlus style={{flex: 1}} topColor={theme.themeColor}>
                 {navigationBar}
                 <ScrollView>
                     {this.renderView()}
                 </ScrollView>
-            </View>
+            </SafeAreaViewPlus>
 
         );
     }

@@ -109,7 +109,7 @@ export class PopularPage extends Component<Props> {
             }
         )) : null;
 
-        return (<View style={{flex: 1, marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0}}>
+        return (<View style={{flex: 1}}>
                 {navigationBar}
                 {TabNavigator && <TabNavigator/>}
             </View>
@@ -298,10 +298,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
     },
-    homePage: {
-        justifyContent: 'center',
-        fontSize: 20,
-    },
     tabStyle: {
         // minWidth: 50, //fix minWidth会导致tabStyle初次加载时闪烁
         padding: 0,
@@ -313,11 +309,6 @@ const styles = StyleSheet.create({
     labelStyle: {
         fontSize: 13,
         margin: 0,
-    },
-    buttonContainer: {
-        justifyContent: 'space-between',
-        height: 90,
-        marginTop: 10,
     },
     indicatorContainer: {
         alignItems: 'center',

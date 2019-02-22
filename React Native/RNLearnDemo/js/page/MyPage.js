@@ -156,11 +156,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F5FCFF',
-        marginTop: 30,
-    },
-    homePage: {
-        justifyContent: 'center',
-        fontSize: 20,
     },
     about_left: {
         flexDirection: 'row',

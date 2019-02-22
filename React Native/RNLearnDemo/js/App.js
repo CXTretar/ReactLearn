@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Provider} from 'react-redux';
-import ApptNavigator from './navigator/AppNavigator';
+import AppNavigator from './navigator/AppNavigator';
 import store from './store'
 
 const instructions = Platform.select({
@@ -16,7 +16,7 @@ type Props = {};
 export default class App extends Component<Props> {
     render() {
         return <Provider store={store}>
-            <ApptNavigator/>
+            <AppNavigator/>
         </Provider>;
     }
 }

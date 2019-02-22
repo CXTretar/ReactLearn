@@ -18,6 +18,7 @@ import BackPressComponent from "../common/BackPressComponent";
 import FavoriteDao from "../expand/dao/FavoriteDao";
 import FavoriteUtil from "../util/FavoriteUtil";
 import {FLAG_STORAGE} from "../expand/dao/DataStore";
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 const TRENDING_URL = 'https://github.com/';
 
@@ -122,7 +123,8 @@ export default class DetailPage extends Component<Props> {
             />;
 
         return (
-            <View style={styles.container}>
+
+            <SafeAreaViewPlus style={styles.container} topColor={theme.themeColor}>
                 {navigationBar}
                 <WebView
                     ref={webView => this.webView = webView}
@@ -130,7 +132,7 @@ export default class DetailPage extends Component<Props> {
                     onNavigationStateChange={navState => this.onNavigationStateChange(navState)}
                     source={{uri: this.state.url}}
                 />
-            </View>
+            </SafeAreaViewPlus>
         );
     }
 }
@@ -138,6 +140,5 @@ export default class DetailPage extends Component<Props> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0,
     },
 });

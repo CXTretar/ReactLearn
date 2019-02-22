@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import actions from '../action/index'
 import BackPressComponent from '../common/BackPressComponent';
 import CustomThemePage from '../page/CustomThemePage';
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 export class HomePage extends Component {
 
@@ -49,11 +50,12 @@ export class HomePage extends Component {
     }
 
     render() {
+        const {theme} = this.props;
         NavigationUtil.navigation = this.props.navigation;
-        return <View style={{flex: 1}}>
+        return <SafeAreaViewPlus topColor={theme.themeColor}>
             <DynamicTabNavigator/>
             {this.renderCustomThemeView()}
-        </View>;
+        </SafeAreaViewPlus>;
     }
 
 }
