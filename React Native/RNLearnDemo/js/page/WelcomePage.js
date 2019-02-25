@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Platform, StyleSheet, Image, SafeAreaView, Text, View} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil'
+import SplashScreen from 'react-native-splash-screen'
 import actions from "../action";
 import {connect} from "react-redux";
 
@@ -18,8 +19,9 @@ export class WelcomePage extends Component<Props> {
         const {onThemeInit} = this.props;
         onThemeInit();
         this.timer = setTimeout(() => {
+            SplashScreen.hide()
             NavigationUtil.resetToHomePage(this.props)
-        }, 500)
+        }, 200)
     }
 
     componentWillMount(): void {
@@ -27,11 +29,7 @@ export class WelcomePage extends Component<Props> {
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>WelcomePage</Text>
-            </View>
-        );
+        return null;
     }
 }
 

@@ -29,13 +29,16 @@ export default class TrendingDialog extends Component {
     render(): React.ReactNode {
         const {onClose, onSelect} = this.props;
         return (<Modal
+            animationType={'fade'}
             transparent={true}
             visible={this.state.visible}
-            onRequestClose={() => onClose}
+            // onRequestClose={() => onClose()}
         >
+
             <TouchableOpacity
                 style={styles.container}
                 onPress={() => this.dismiss()}
+                activeOpacity={1}
             >
                 <MaterialIcons
                     name={'arrow-drop-up'}

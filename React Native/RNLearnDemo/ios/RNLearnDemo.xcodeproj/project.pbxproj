@@ -53,6 +53,7 @@
 		CF60C2DAFDC94E89B90D9B48 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EC364F38A6B401B8812046E /* FontAwesome5_Solid.ttf */; };
 		D5C92A55BA953FBE4E34FE2F /* libPods-RNLearnDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53466DDD118CA406C3598E7A /* libPods-RNLearnDemo.a */; };
 		D7B10551485048D79C315BFD /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 33E53FEEDEFE464197C130C7 /* Ionicons.ttf */; };
+		DC5E81A822238DEC0085D6EE /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5E81A722238DD80085D6EE /* libSplashScreen.a */; };
 		DDAAA54B349C4EF69790E360 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54635F7B6A64ADFB3819E7E /* libRNVectorIcons.a */; };
 		F025C9559B6D49FFA5879F1D /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 970C8C33DBCE4FB4A3A94025 /* libRNGestureHandler.a */; };
 		FB4F4C61B6E848CF8C8E7F84 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2BA57B35B5140FAA20E842E /* EvilIcons.ttf */; };
@@ -354,6 +355,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNGestureHandler;
 		};
+		DC5E81A622238DD80085D6EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC5E817A22238DD80085D6EE /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -402,6 +410,7 @@
 		C5560DAE89E64723A8F93FDF /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		D1E86F9D99661FEF688E5939 /* Pods-RNLearnDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNLearnDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNLearnDemo/Pods-RNLearnDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DC50B3B121F1D4C700E9F506 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
+		DC5E817A22238DD80085D6EE /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		DD5F25F9B4C24FA3BA9258A5 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		DDF793FC21EE4AEAA0C3B052 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		EA933A32F04841C18DF58D6F /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -421,6 +430,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC5E81A822238DEC0085D6EE /* libSplashScreen.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -634,6 +644,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DC5E817A22238DD80085D6EE /* SplashScreen.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -730,6 +741,14 @@
 			isa = PBXGroup;
 			children = (
 				DC50B3B621F1D4C700E9F506 /* libRNGestureHandler.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DC5E817B22238DD80085D6EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC5E81A722238DD80085D6EE /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -908,6 +927,10 @@
 				{
 					ProductGroup = DC50B3A421F1D39100E9F506 /* Products */;
 					ProjectRef = A6D611D77ADE4E17A12906A4 /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = DC5E817B22238DD80085D6EE /* Products */;
+					ProjectRef = DC5E817A22238DD80085D6EE /* SplashScreen.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1201,6 +1224,13 @@
 			remoteRef = DC50B3B521F1D4C700E9F506 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		DC5E81A722238DD80085D6EE /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = DC5E81A622238DD80085D6EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1450,6 +1480,7 @@
 			baseConfigurationReference = D1E86F9D99661FEF688E5939 /* Pods-RNLearnDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 29C2LLD5FB;
@@ -1457,6 +1488,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = RNLearnDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1476,12 +1508,14 @@
 			baseConfigurationReference = 2C51DB62F88EC86A80D1F6DF /* Pods-RNLearnDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29C2LLD5FB;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = RNLearnDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

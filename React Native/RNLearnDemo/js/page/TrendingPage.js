@@ -26,6 +26,7 @@ import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import ArrayUtil from '../util/ArrayUtil'
+import CustomThemePage from "./HomePage";
 
 const URL = 'https://github.com/trending/';
 const pageSize = 10;

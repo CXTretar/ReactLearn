@@ -61,19 +61,22 @@ export class PopularPage extends Component<Props> {
     renderRightButton() {
         const {theme} = this.props;
         return <TouchableOpacity
-            onPress={()=>{
-                NavigationUtil.goPage({theme},'SearchPage');
+
+            onPress={() => {
+                NavigationUtil.goPage({theme}, 'SearchPage');
             }}
         >
-            <Ionicons
-                name={'ios-search'}
-                size={24}
-                style={{
-                    marginRight: 8,
-                    alignSelf: 'center',
-                    color:'white',
-                }}
-            />
+            <View style={{padding: 5, marginRight: 8}}>
+                <Ionicons
+                    name={'ios-search'}
+                    size={24}
+                    style={{
+                        marginRight: 8,
+                        alignSelf: 'center',
+                        color: 'white',
+                    }}
+                />
+            </View>
 
         </TouchableOpacity>
     }
